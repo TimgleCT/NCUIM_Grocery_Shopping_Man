@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>中央買菜郎－註冊</title>
+    <link rel = "stylesheet"  href = "{% static 'reset.css' %}">
+    <link rel = "stylesheet"  href = "{% static 'index.css' %}">
+</head>
+<body>
+    <div class = "LogWrap">
+            <div class = "LogHeader" >
+                <h1>中央買菜郎</h1>
+            </div>
+            <div class = "LogRegDiv" id = "RegDiv">
+                <div class = "LogRegBlock" id = "RegBlock">
+                    <h2>註冊</h2>
+                    <div class = "LogRegInput">
+                            <form action = "">
+                                <div class = "InputBox">
+                                    帳號：<input type = "text" name = "">
+                                </div>  
+                                <div class = "InputBox">
+                                    密碼：<input type = "password" name = "">
+                                </div>  
+                                <div class = "InputBox">
+                                    確認密碼：<input type = "password" name = "">
+                                </div> 
+                                <div class = "InputSubmit">
+                                    <input type = "submit" name = "" value = "確認送出">
+                                </div> 
+                            </form>
+                                <div class = "InputSubmit">
+                                    <a href="http://127.0.0.1:8000/login/">
+                                        <button>登入</button>
+                                    </a>
+                                </div> 
+                        </div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>

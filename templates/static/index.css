@@ -1,0 +1,151 @@
+.Wrap{
+	margin: auto;
+	margin-top: 10%;
+    width: 80%;
+    font-family: Microsoft JhengHei;
+}
+.LogWrap{
+	margin: auto;
+	margin-top: 5%;
+    width: 50%;
+    font-family: Microsoft JhengHei;
+}
+.InHeader{
+	margin: auto;
+    background-color: 	rgba(99, 99, 99, 0.788);
+	height: 50px;
+	padding-top: 20px ;
+}
+.InHeader,.LogHeader h1{
+	font-size: 22pt;
+	font-weight:bold;
+	text-align: center;
+   	color: white;
+}
+.LogHeader{
+	margin: auto;
+    background-color: 	rgba(99, 99, 99, 0.788);
+	height: 50px;
+	padding-top: 20px ;
+}
+.LogRegDiv{
+	margin: auto;
+    background-color: 	rgba(38, 40, 41, 0.644);
+	height: 40px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+#LogDiv{
+	height: 220px;
+}
+#RegDiv{
+	height: 250px;
+}
+.LogRegBtn{
+	float: left;
+	text-align: center;
+	width: 50%;
+}
+.LogRegBtn button{
+	font-family: Microsoft JhengHei;
+	margin: auto;
+	width: 30%;
+	font-size: 15pt;
+	border-radius: 12px;
+}
+.Footer{
+	margin: auto;
+	padding-left: 20%;
+	padding-right: 5%;
+	height: 130px;
+	text-align: center;
+	background-color: rgba(53, 53, 53, 0.493)
+}
+.Gallery{
+	text-align: center;
+	margin-right: 22px;
+	margin-top: 10px;
+	padding: 5px;
+	border: 3px solid #ccc;
+	border-style: dashed;
+  	float: left;
+	width: 12%;
+	background-color: rgba(102, 121, 207, 0.747)
+}
+.Gallery:hover {
+	box-shadow: 0 12px 16px 0 rgba(219, 219, 219, 0.24), 0 17px 50px 0 rgba(247, 247, 247, 0.19);
+}
+.Desc {
+	padding: 15px;
+	text-align: center;
+	font-weight:bold;
+	color: white;
+}
+img {
+	border-radius: 60%;
+	width: 55px;
+	height: 50px;
+}
+body {
+	background: url("IndexBackground.jpg") no-repeat center fixed;
+	background-size: cover;
+	color:white;
+}
+em {
+     color: LightSeaGreen;
+}
+.LogRegBtn button:hover {
+	box-shadow: 0 12px 16px 0 rgba(219, 219, 219, 0.24), 0 17px 50px 0 rgba(247, 247, 247, 0.19);
+}
+.LogRegBlock {
+	text-align: center;
+	height: 190px;
+	margin: auto;
+	padding-top: 20px;
+	width: 60%;
+	background-color: rgb(0, 0, 0);
+	border: 3px solid #ccc;
+	border-style: dashed;
+}
+#RegBlock{
+	height: 230px;
+	background-color: rgb(44, 1, 94);
+}
+.LogRegBlock h2{
+	font-size: 20px;
+}
+.LogRegInput{
+	margin: auto;
+}
+.InputBox{
+	margin-top: 20px;
+	float: right;
+	padding-right: 20%;
+}
+.InputSubmit{
+	margin-top: 20px;
+	margin-left: 40px;
+	width: 35%;
+	float: left;
+}
+.InputSubmit button{
+	font-family: Microsoft JhengHei;
+	margin: auto;
+	width: 100%;
+	font-size: 10pt;
+	border-radius: 12px;
+	cursor:pointer;
+}
+input[type="submit"]{
+	font-family: Microsoft JhengHei;
+	margin: auto;
+	width: 100%;
+	font-size: 10pt;
+	border-radius: 12px;
+	cursor:pointer;
+}
+input[type="text"],input[type="password"]{
+	padding:5px 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px; 
+}

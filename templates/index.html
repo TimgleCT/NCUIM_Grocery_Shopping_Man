@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <title>中央買菜郎</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel = "stylesheet"  href = "{% static 'reset.css' %}">
+        <link rel = "stylesheet"  href = "{% static 'index.css' %}">
+    </head>
+    <body>
+        <div class = "Wrap">
+            <div class = "InHeader" >
+                <h1>中央買菜郎</h1>
+            </div>
+            <div class = "LogRegDiv">
+                <div class = "LogRegBtn">
+                    <a href="http://127.0.0.1:8000/login/">
+                        <button >登入</button>
+                    </a>
+                </div>
+                <div class = "LogRegBtn">
+                    <a href="http://127.0.0.1:8000/registered/">
+                        <button>註冊</button>
+                    </a>
+                </div>
+            </div>
+            <div class = "Footer">
+                <a href="https://www.facebook.com/profile.php?id=100002342939054">
+                    <div class="Gallery">
+                        <img src="{% static 'user.png' %}" alt="莊于霆" >
+                        <div class="Desc">莊于霆</div>
+                    </div>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=100001853782534">
+                    <div class="Gallery">
+                        <img src="{% static 'user.png' %}" alt="蘇恆毅">
+                        <div class="Desc">蘇恆毅</div>
+                    </div>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=100000469923324">
+                    <div class="Gallery">
+                        <img src="{% static 'user.png' %}" alt="葉季霏">
+                        <div class="Desc">葉季霏</div>
+                    </div>
+                </a>
+                <a href="https://www.facebook.com/zhangqing.li2">
+                    <div class="Gallery">
+                        <img src="{% static 'user.png' %}" alt="李長慶">
+                        <div class="Desc">李長慶</div>
+                    </div>
+                </a>
+                <a href="https://www.facebook.com/Mr.YoyoS">
+                     <div class="Gallery">
+                        <img src="{% static 'user.png' %}" alt="孫協佑">
+                        <div class="Desc">孫協佑</div>
+                    </div>
+                </a>
+            </div>
+            <!-- <em>{{ current_time }}</em> -->
+        </div>
+    </body>
+</html>
