@@ -25,7 +25,7 @@ def save(request):
         mname = item['市場名稱']
         avg = item['平均價']
         save, created = CurrentPrice.objects.get_or_create(Date=date,ProductId=pid, ProductName=pname,MarketId=mid,MarketName=mname,AveragePrice=avg)
-        print(save.mname,save.pname,save.avg,created)
+        print(save.MarketName,save.ProductName,save.AveragePrice,created)
         # save.save()
 
     return 0
@@ -34,8 +34,9 @@ def save(request):
 def select(request):
     default_area = '台北二'
     if request.method == "GET":
-        area = CurrentPrice.objects.filter(mname=default_area)
-        return render(request,"area.html",{'area':area,'smallarea':area})
+        area = list(CurrentPrice.objects.filter(MarketName=default_area).values())
+        print(area)
+        return render(request,"products.html",{'area':area,'smallarea':area})
     elif 'condition' in request.POST['btn']:#待改
         if request.POST['market'] != '-' and request.POST['selection'] == '-':#待改
             default_area = request.POST['market']#待改

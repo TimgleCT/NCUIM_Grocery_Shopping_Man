@@ -1,7 +1,7 @@
-var ProductData = [];
+// var ProductData = [];
 
 $(document).ready(function () {
-    LoadProductData();
+    // LoadProductData();
     insertKendoWindow();
 
 
@@ -36,20 +36,21 @@ $(document).ready(function () {
 
     $("#Grid").kendoGrid({
         dataSource: {
-            data: ProductData,
+            data: pro_data,
             schema: {
                 model: {
                     fields: {
+                        id: {type:"int"},
                         Date: {type:"string"},
                         ProductId: { type: "string" },
                         ProductName: { type: "string" },
                         MarketId: { type: "string" },
                         MarketName: { type: "string" },
-                        TopPrice: { type: "int" },
-                        MiddlePrice: { type: "int" },
-                        LowPrice: { type: "int" },
-                        AveragePrice: { type: "int" },
-                        Quantity: { type: "int" }
+                        // TopPrice: { type: "int" },
+                        // MiddlePrice: { type: "int" },
+                        // LowPrice: { type: "int" },
+                        AveragePrice: { type: "float" },
+                        // Quantity: { type: "int" }
                     }
                 }
             },
@@ -77,22 +78,23 @@ $(document).ready(function () {
     Search();
 });
 
-function LoadProductData(){
-    ProductData = data.map(function(item){
-        return{
-            Date:item.交易日期,
-            ProductId:item.作物代號,
-            ProductName:item.作物名稱,
-            MarketId:item.市場代號,
-            MarketName:item.市場名稱,
-            TopPrice:item.上價,
-            MiddlePrice:item.中價,
-            LowPrice:item.下價,
-            AveragePrice:item.平均價,
-            Quantity:item.交易量
-        }
-    });
-}
+// function LoadProductData(){
+//     ProductData = pro_data;
+//     ProductData =pro_data.map(function(item){
+//         return{
+//             Date:item.Date,
+//             ProductId:item.ProductId,
+//             ProductName:item.ProductName,
+//             MarketId:item.市場代號,
+//             MarketName:item.市場名稱,
+//             TopPrice:item.上價,
+//             MiddlePrice:item.中價,
+//             LowPrice:item.下價,
+//             AveragePrice:item.平均價,
+//             Quantity:item.交易量
+//         }
+//     });
+// }
 
 function Search(){
     //當鍵盤鑑放開後
