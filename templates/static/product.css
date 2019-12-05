@@ -1,0 +1,83 @@
+body {
+	background: url("IndexBackground.jpg") no-repeat center fixed;
+	background-size: cover;
+    color:white;
+    font-family: Microsoft JhengHei;
+}
+.Header{
+    padding: 30px;
+    background-color: rgb(43, 122, 226);
+}
+.Header h1{
+    text-align: center;
+    font-size: 30px;
+}
+.PageLink{
+    background-color:#1b2634;
+    padding: 10px 23% 10px 28%;
+}
+.PageLink ul{
+    list-style-type: none;
+    overflow: hidden;
+}
+.PageLink li{
+    float: left;
+}
+.PageLink li a{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px 50px 16px 50px;
+    text-decoration: none;
+}
+.PageLink li a:hover {
+    background-color: #179988;
+}
+.TableDiv{
+    margin: auto;
+    padding: 15px 50px 15px 50px;
+    height: 620px;
+    width: 75%;
+    background-color: rgba(87, 85, 84, 0.911);
+}
+.product-grid-toolbar{
+    height: 50px;
+    line-height: 50px;
+    text-align:center;
+}
+.product-grid-toolbar input{
+    color:white;
+    background: #3343a4;
+    border:none;
+    padding: 10px 20px;
+    width:367px;
+}
+.product-grid-toolbar input::placeholder{
+    color:#98a1d2;
+}
+#FilterForm{
+    margin: auto;
+}
+.ProductFilterList{
+    margin: 10px 10px 10px 10px;
+}
+#FilterInsert{
+    font-size: 20px;
+    padding: 20px 10% 20px 10%;
+    text-align: center;
+    margin: auto;
+    background-color: darkblue;
+}
+#FilterInsert:hover{
+    cursor: pointer;
+}
+.SubmitList{
+    padding: 10px 5% 10px 5%;
+    float: right;
+}
+#Grid{
+    border-style: none;
+}
+label{
+    color: white;
+}
