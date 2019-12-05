@@ -57,7 +57,7 @@ $(document).ready(function () {
             sort: { field: "交易日期", dir: "asc" }//由大到小：desc
         },
         toolbar: kendo.template("<div class='product-grid-toolbar'><input class='product-grid-search' placeholder='我想要找......' type='text'></input></div>"),
-        height: 550,
+        height: 540,
         sortable: true,
         pageable: {
             refresh: true,

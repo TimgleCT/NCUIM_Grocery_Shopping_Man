@@ -7,8 +7,12 @@ import requests
 # Create your views here.
 
 
-def hello(request):
-    return render(request,"product.html")
+
+def Products(request):
+    return render(request, 'products.html', {
+    
+    })
+
 
 def save(request):
     url = "http://data.coa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx"
