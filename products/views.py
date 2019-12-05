@@ -8,7 +8,7 @@ import requests
 
 
 def hello(request):
-    return HttpResponse("Helloworld")
+    return render(request,"product.html")
 
 def save(request):
     url = "http://data.coa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx"
