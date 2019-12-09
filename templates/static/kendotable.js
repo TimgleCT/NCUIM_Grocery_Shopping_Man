@@ -4,7 +4,6 @@ $(document).ready(function () {
     // LoadProductData();
     insertKendoWindow();
 
-
     var MarketList = [
         {text:"台北二",value:"台北二"},
         {text:"台北市場",value:"台北市場"},
@@ -19,6 +18,11 @@ $(document).ready(function () {
         {text:"釋迦-鳳梨釋迦",value:"釋迦-鳳梨釋迦"},
         {text:"草莓",value:"草莓"}
     ];
+
+    // $("#Logout").kendoButton();
+    // $("#ShoppingChart").kendoButton();
+    
+
 
     $("#MarketCategory").kendoDropDownList({
         dataTextField: "text",
