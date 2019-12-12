@@ -1,8 +1,10 @@
 // var ProductData = [];
+var TestMember = "測試帳號";
 
 $(document).ready(function () {
     // LoadProductData();
     insertKendoWindow();
+    EvaluateWindow();
 
     var MarketList = [
         {text:"台北二",value:"台北二"},
@@ -82,23 +84,6 @@ $(document).ready(function () {
     Search();
 });
 
-// function LoadProductData(){
-//     ProductData = pro_data;
-//     ProductData =pro_data.map(function(item){
-//         return{
-//             Date:item.Date,
-//             ProductId:item.ProductId,
-//             ProductName:item.ProductName,
-//             MarketId:item.市場代號,
-//             MarketName:item.市場名稱,
-//             TopPrice:item.上價,
-//             MiddlePrice:item.中價,
-//             LowPrice:item.下價,
-//             AveragePrice:item.平均價,
-//             Quantity:item.交易量
-//         }
-//     });
-// }
 
 function Search(){
     //當鍵盤鑑放開後
@@ -119,15 +104,37 @@ function Search(){
         });
 }
 
-function Favorite(){
+function Favorite(e){
+    if(confirm("你確定要收藏此產品嗎?")){
+        var grid = $("#Grid").data("kendoGrid");
+        var dataSource = grid.dataSource;
 
+        //防止頁面滾動位置更改
+        e.preventDefault();     
+        //在當前的元素，DOM樹中向上遍歷，直到找到了與提供的選擇器相匹配的元素
+        var tr = $(e.target).closest("tr");
+        var data = grid.dataItem(tr);
+        var FavoriteJSON = TestMember + ',' + data.MarketId + ',' + data.ProductId;
+        alert(FavoriteJSON);
+        // $.ajax({
+        //     url: "http://127.0.0.1:8000/products/InsertFavorite",    
+        //     data: FavoriteJSON,
+        //     contentType: 'application/json',
+        //     type: "POST",
+        //     traditional: true,    // 需要传递列表、字典时加上这句
+        //     success: function(result) {
+        //         alert("收藏成功");
+        //     },
+        //     fail: function(result) {
+        //         alert("收藏失敗")
+        //     }
+        // });
+    }
 }
 
-function Evaluate(){
 
-}
 
-//新增書籍的window
+//鎖定市場與產品的window
 function insertKendoWindow(){
     //設定kendowindow顯示
     var insertWindow = $("#FilterForm");
@@ -148,4 +155,54 @@ function insertKendoWindow(){
             left: "50%"
         }
     }).data("kendoWindow").center();
+}
+
+
+function EvaluateWindow(){
+    //設定kendowindow顯示
+    var EvaluateWindow = $("#ShoppingForm");
+    EvaluateWindow.kendoWindow({
+        width: "400px",
+        title: "數量",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Close"
+        ],
+        position: {
+            top: "80%", 
+            left: "50%"
+        }
+    }).data("kendoWindow").center();
+}
+
+var EvaluateMarketId,EvaluateProductId
+function ClickSubmit(){
+    var Quantity = document.getElementById("Quantity").value;
+    var InsertShopping = EvaluateMarketId + ',' + EvaluateProductId + "," + Quantity ;
+    $("#ShoppingForm").data("kendoWindow").close();
+    alert(InsertShopping);
+}
+
+//鎖定市場與產品的window
+function Evaluate(e){
+    var EvaluateWindow = $("#ShoppingForm");
+    EvaluateWindow.data("kendoWindow").open();
+    var grid = $("#Grid").data("kendoGrid");
+
+    //防止頁面滾動位置更改
+    e.preventDefault();     
+    //在當前的元素，DOM樹中向上遍歷，直到找到了與提供的選擇器相匹配的元素
+    var tr = $(e.target).closest("tr");
+    var data = grid.dataItem(tr);
+
+    var MarketNameList = document.getElementById("MarketNameShopping");
+    var ProductNameList = document.getElementById("ProductNameShopping");
+    var PriceShoppingList = document.getElementById("PriceShopping");
+    MarketNameList.innerHTML = data.MarketName;
+    ProductNameList.innerHTML = data.ProductName;
+    PriceShoppingList.innerHTML = data.AveragePrice +" 元";
+
+    EvaluateMarketId = data.MarketId;
+    EvaluateProductId = data.ProductId;
 }

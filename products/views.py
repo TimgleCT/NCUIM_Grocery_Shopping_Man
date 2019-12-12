@@ -8,8 +8,18 @@ import requests
 
 
 
-def Products(request):
-    return render(request, 'products.html', {
+def Trend(request):
+    return render(request, 'trend.html', {
+    
+    })
+
+def Favorite(request):
+    return render(request, 'favorite.html', {
+    
+    })
+
+def ShoppingChart(request):
+    return render(request, 'shoppingchart.html', {
     
     })
 

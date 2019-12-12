@@ -26,7 +26,7 @@
 <body>
     <div class = "Header">
         <ul>
-            <li class="LogoutShoppingCart"><button  class = "HeaderButton"><i class="fas fa-shopping-basket fa-lg"></i></button></li>
+            <li class="LogoutShoppingCart"><a href = "http://127.0.0.1:8000/products/shoppingchart"><button  class = "HeaderButton"><i class="fas fa-shopping-basket fa-lg"></i></button></a></li>
             <li class="LogoutShoppingCart"><a href="http://127.0.0.1:8000/index/"><button class = "HeaderButton">登出</button></a></li>
         </ul>
         <h1>中央買菜郎</h1>
@@ -34,8 +34,8 @@
     <div class = "PageLink">
         <ul>
             <li><a href = "http://127.0.0.1:8000/products/">Today's Price</a></li>
-            <li><a href = "http://127.0.0.1:8000/trend/">Price Trend</a></li>
-            <li><a href = "http://127.0.0.1:8000/favorite/">My Favorite</a> </li>
+            <li><a href = "http://127.0.0.1:8000/products/trend">Price Trend</a></li>
+            <li><a href = "http://127.0.0.1:8000/products/favorite">My Favorite</a> </li>
         </ul>
     </div>
     <div class = "Container">
@@ -54,6 +54,31 @@
                         </li>
                         <li class = "SubmitList">
                             <input type = "submit" class="k-button k-primary" value="確認">
+                        </li>
+                    </ul>
+                </form>
+            </div>
+            <div id = "ShoppingForm">
+                <form id = "Filter" action="">
+                    <ul class = "ProductFilter">
+                        <li class = "ShoppingFormList">
+                            <label>市場：</label>
+                            <p id = "MarketNameShopping" class = "ShoppingFormListP"></p>
+                        </li>
+                        <li class = "ShoppingFormList">
+                            <label>農產品：</label>
+                            <p id = "ProductNameShopping" class = "ShoppingFormListP"></p>
+                        </li>
+                        <li class = "ShoppingFormList">
+                            <label>單位價格：</label>
+                            <p id = "PriceShopping" class = "ShoppingFormListP"></p>
+                        </li>
+                        <li class = "ShoppingFormList">
+                            <label>單位數量：</label>
+                            <input id = "Quantity" type = "number" value = "0" min = "0" max = "100">
+                        </li>
+                        <li class = "SubmitList">
+                            <input id = "ShoppingFormSubmit" type = "submit" class="k-button k-primary" value="確認" onclick = "return ClickSubmit();">
                         </li>
                     </ul>
                 </form>
