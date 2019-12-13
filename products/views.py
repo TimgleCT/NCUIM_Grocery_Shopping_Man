@@ -1,8 +1,9 @@
 from django.core.checks import messages
 from django.shortcuts import render
 from django.http import HttpResponse
-from products.models import CurrentPrice
+from products.models import *
 import requests
+import datetime
 
 # Create your views here.
 
@@ -25,6 +26,7 @@ def ShoppingChart(request):
 
 
 def save(request):
+    curdate = datetime.datetime.now().strftime("%m.%d")
     url = "http://data.coa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx"
     data = requests.get(url).json()
     for item in data:
@@ -32,13 +34,31 @@ def save(request):
         pid = item['作物代號']
         pname = item['作物名稱']
         mid = item['市場代號']
-        mname = item['市場名稱']
-        avg = item['平均價']
-        save, created = CurrentPrice.objects.get_or_create(Date=date,ProductId=pid, ProductName=pname,MarketId=mid,MarketName=mname,AveragePrice=avg)
-        print(save.MarketName,save.ProductName,save.AveragePrice,created)
-        # save.save()
+        if '市場' in item['市場名稱'] or curdate not in item['交易日期']:
+            pass
+        else:
+            Date.objects.get_or_create(Date=item['交易日期'])
+            day = Date.objects.get(Date=item['交易日期'])
+            pro = Product.objects.get(ProductNum=item['作物代號'])
+            market = Market.objects.get(MarketName=item['市場名稱'])
+            mp = MarketProduct.objects.get(MarketId=str(market.id), ProductId=str(pro.id))
+            print(type(day))
+            mname = item['市場名稱']
+            avg = item['平均價']
+            save_data, created = CurrentPrice.objects.get_or_create(
+                Day=day,
+                MPId=mp,
+                Date=date,
+                ProductId=pid,
+                ProductName=pname,
+                MarketId=mid,
+                MarketName=mname,
+                AveragePrice=avg
+            )
+            print(save_data.Date,save_data.MarketName,save_data.ProductName,save_data.AveragePrice,created)
+            # save.save()
 
-    return 0
+    return HttpResponse("save")
 
 
 def select(request):
@@ -51,10 +71,10 @@ def select(request):
         if request.POST['market'] != '-' and request.POST['selection'] == '-':#待改
             default_area = request.POST['market']#待改
             area = CurrentPrice.objects.filter(mname=default_area)
-            return render(request, "area.html", {'area': area,'smallarea':area})
+            return render(request, "products.html", {'area': area,'smallarea':area})
         elif request.POST['market'] == '-' and request.POST['selection'] == '-':
             area = CurrentPrice.objects.filter(mname=default_area)
-            return render(request, "area.html", {'area': area,'smallarea':area})
+            return render(request, "products.html", {'area': area,'smallarea':area})
         else :
             select_area = request.POST['market']
             select_pro = request.POST['selection']
@@ -91,3 +111,27 @@ def select(request):
 #     for list in data:
 #         M_Name, created = Market.objects.get_or_create(MarketNum=list['市場代號'], MarketName=list['市場名稱'])
 #         print(M_Name,created)
+
+def ADD_Market_Product (request):
+    url = "http://data.coa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx"
+    data = requests.get(url).json()
+    for list in data:
+        if '市場' in list['市場名稱']:
+            pass
+        else:
+            P_Name ,created = Product.objects.get_or_create(ProductName=list['作物名稱'],ProductNum=list['作物代號'])
+            print(P_Name.ProductNum,P_Name.ProductName,created)
+            M_Name, created = Market.objects.get_or_create(MarketNum=list['市場代號'], MarketName=list['市場名稱'])
+            print(M_Name.MarketNum,M_Name.MarketName,created)
+            product = Product.objects.get(ProductNum=list['作物代號'])
+            # print(product)
+            market = Market.objects.get(MarketName=list['市場名稱'])
+            # print(market)
+            MP_Name , created = MarketProduct.objects.get_or_create(MarketId=market, ProductId=product)
+            print(MP_Name.MarketId,MP_Name.ProductId,created)
+
+def delete(request):
+    delet = Market.objects.all()
+    delet.delete()
+    delet = Product.objects.all()
+    delet.delete()

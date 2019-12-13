@@ -8,4 +8,7 @@ urlpatterns = [
     path('trend', views.Trend),
     path('favorite', views.Favorite),
     path('shoppingchart', views.ShoppingChart),
+    path('del',views.delete),
+    path('addmp',views.ADD_Market_Product),
+    path('addcp',views.save)
     ]
