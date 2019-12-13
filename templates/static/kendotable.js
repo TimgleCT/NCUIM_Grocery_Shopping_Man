@@ -2,7 +2,7 @@
 var TestMember = "測試帳號";
 
 $(document).ready(function () {
-    // LoadProductData();
+    LoadShoppingChart();
     insertKendoWindow();
     EvaluateWindow();
 
@@ -20,11 +20,7 @@ $(document).ready(function () {
         {text:"釋迦-鳳梨釋迦",value:"釋迦-鳳梨釋迦"},
         {text:"草莓",value:"草莓"}
     ];
-
-    // $("#Logout").kendoButton();
-    // $("#ShoppingChart").kendoButton();
     
-
 
     $("#MarketCategory").kendoDropDownList({
         dataTextField: "text",
@@ -52,11 +48,7 @@ $(document).ready(function () {
                         ProductName: { type: "string" },
                         MarketId: { type: "string" },
                         MarketName: { type: "string" },
-                        // TopPrice: { type: "int" },
-                        // MiddlePrice: { type: "int" },
-                        // LowPrice: { type: "int" },
                         AveragePrice: { type: "float" },
-                        // Quantity: { type: "int" }
                     }
                 }
             },
@@ -64,10 +56,10 @@ $(document).ready(function () {
             sort: { field: "交易日期", dir: "asc" }//由大到小：desc
         },
         toolbar: kendo.template("<div class='product-grid-toolbar'><input class='product-grid-search' placeholder='我想要找......' type='text'></input></div>"),
-        height: 540,
+        height: 500,
         sortable: true,
         pageable: {
-            refresh: true,
+            refresh: false,
             pageSizes: true,
             buttonCount: 5
         },
@@ -176,12 +168,44 @@ function EvaluateWindow(){
     }).data("kendoWindow").center();
 }
 
-var EvaluateMarketId,EvaluateProductId
+var ShoppingChartList = []
+function LoadShoppingChart(){
+    ShoppingChartList = JSON.parse(localStorage.getItem("ShoppingChartData"));
+    if(ShoppingChartList == null){
+        ShoppingChartList = [];
+    }
+}
+
+var EvaluateMarketId,EvaluateProductId,EvaluateMarketName,EvaluateProductName,EvaluateAveragePrice;
 function ClickSubmit(){
-    var Quantity = document.getElementById("Quantity").value;
-    var InsertShopping = EvaluateMarketId + ',' + EvaluateProductId + "," + Quantity ;
+    LoadShoppingChart();
+
+    var Quantity = parseInt(document.getElementById("Quantity").value);
+    var DataPosition,Id;
+    if(ShoppingChartList.length == 0){
+        DataPosition = 0;
+        Id = 1;
+    }else{
+        DataPosition = ShoppingChartList.length;
+        Id = ShoppingChartList[DataPosition - 1].id + 1;
+    }
+
+    var ShoppingChartLocal = {
+        "id":Id,
+        "MarketId":EvaluateMarketId,
+        "ProductId":EvaluateProductId,
+        "MarketName":EvaluateMarketName,
+        "ProductName":EvaluateProductName,
+        "AveragePrice":EvaluateAveragePrice,
+        "Quantity":Quantity,
+        "TotalPrice":Math.round(EvaluateAveragePrice * Quantity)
+    };
+
+    ShoppingChartList[DataPosition] = ShoppingChartLocal;
+    localStorage.setItem("ShoppingChartData",JSON.stringify(ShoppingChartList));
+
     $("#ShoppingForm").data("kendoWindow").close();
-    alert(InsertShopping);
+    alert(ShoppingChartList);
 }
 
 //鎖定市場與產品的window
@@ -195,6 +219,10 @@ function Evaluate(e){
     //在當前的元素，DOM樹中向上遍歷，直到找到了與提供的選擇器相匹配的元素
     var tr = $(e.target).closest("tr");
     var data = grid.dataItem(tr);
+
+    EvaluateMarketName = data.MarketName;
+    EvaluateProductName = data.ProductName;
+    EvaluateAveragePrice = data.AveragePrice;
 
     var MarketNameList = document.getElementById("MarketNameShopping");
     var ProductNameList = document.getElementById("ProductNameShopping");

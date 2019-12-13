@@ -38,7 +38,7 @@ $(document).ready(function () {
             sort: { field: "ProductId", dir: "asc" }//由大到小：desc
         },
         toolbar: kendo.template("<div class='product-grid-toolbar'><input class='product-grid-search' placeholder='我想要找......' type='text'></input></div>"),
-        height: 540,
+        height: 500,
         sortable: true,
         pageable: {
             refresh: true,

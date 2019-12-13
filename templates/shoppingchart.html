@@ -10,7 +10,7 @@
     <script src="{% static 'jquery-2.1.4.min.js' %}"></script>
     <script src="{% static 'kendo.all.min.js' %}"></script>
     <script src = "{% static 'data.js' %}" type= "text/javascript"></script>
-    <!-- <script src = "{% static 'kendotable.js' %}" type= "text/javascript"></script> -->
+    <script src = "{% static 'kendotableshopping.js' %}" type= "text/javascript"></script>
     <script src="{% static 'uikit.min.js' %}"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
@@ -35,7 +35,34 @@
     </div>
     <div class = "Container">
         <div class = "TableDiv">
+                <h2 class = "GridHead">預算表</h2>
+                <div id = "ShoppingForm">
+                        <form id = "Filter" action="">
+                            <ul class = "ProductFilter">
+                                <li class = "ShoppingFormList">
+                                    <label>市場：</label>
+                                    <p id = "MarketNameShopping" class = "ShoppingFormListP"></p>
+                                </li>
+                                <li class = "ShoppingFormList">
+                                    <label>農產品：</label>
+                                    <p id = "ProductNameShopping" class = "ShoppingFormListP"></p>
+                                </li>
+                                <li class = "ShoppingFormList">
+                                    <label>單位價格：</label>
+                                    <p id = "PriceShopping" class = "ShoppingFormListP"></p>
+                                </li>
+                                <li class = "ShoppingFormList">
+                                    <label>單位數量：</label>
+                                    <input id = "Quantity" type = "number" value = "0" min = "0" max = "100">
+                                </li>
+                                <li class = "SubmitList">
+                                    <input id = "ShoppingFormSubmit" type = "submit" class="k-button k-primary" value="確認" onclick = "return ClickQuantitySubmit();">
+                                </li>
+                            </ul>
+                        </form>
+                </div>
                 <div id = "Grid"></div>
+                <h2 id = "TotalPrice" class = "GridHead"></h2>
         </div>
     </div>
 </body>

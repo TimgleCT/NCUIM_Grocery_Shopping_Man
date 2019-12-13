@@ -39,8 +39,8 @@ body {
 }
 .TableDiv{
     margin: auto;
-    padding: 15px 50px 15px 50px;
-    height: 620px;
+    padding: 15px 50px 40px 50px;
+    /* height: 620px; */
     width: 75%;
     background-color: rgba(87, 85, 84, 0.911);
 }
@@ -66,7 +66,7 @@ body {
 .ProductFilterList{
     margin: 10px 10px 10px 10px;
 }
-#FilterInsert{
+.GridHead{
     font-size: 20px;
     padding: 20px 10% 20px 10%;
     text-align: center;
@@ -119,4 +119,12 @@ label{
 #Quantity{
     float: right;
     font-size: 17px;
+}
+#TotalPrice{
+    text-align: right;
+    padding-right: 30px;
+    background-color: teal;
+}
+.k-grid-content{
+    height: 353px !important;
 }
