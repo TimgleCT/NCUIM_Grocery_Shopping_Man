@@ -17,7 +17,10 @@ var FavoriteData = [
     }
 ]
 
+var UserAccount;
 $(document).ready(function () {
+
+    UserAccount = getAccountCookie();
 
     $("#Grid").kendoGrid({
         dataSource: {
@@ -76,11 +79,39 @@ function Search(){
         });
 }
 
-function CancelFavorite(){
+function CancelFavorite(e){
+    if(confirm("你確定要刪除這項收藏嗎?")){
+        var grid = $("#Grid").data("kendoGrid")
+        var dataSource = grid.dataSource;
+        //防止頁面滾動位置更改
+        e.preventDefault();     
+        var tr = $(e.target).closest("tr");
+        var data = grid.dataItem(tr);
+        dataSource.remove(data);
 
+        var DeleteBackEnd = UserAccount + "," + data.MarketId + "," + data.ProductId;
+        alert(DeleteBackEnd);
+
+        // $.ajax({
+        //     url: "http://127.0.0.1:8000/products/DeleteFavorite",    
+        //     data: FavoriteJSON,
+        //     contentType: 'application/json',
+        //     type: "POST",
+        //     traditional: true,    // 需要传递列表、字典时加上这句
+        //     success: function(result) {
+        //         alert("成功");
+        //     },
+        //     fail: function(result) {
+        //         alert("失敗")
+        //     }
+        // });
+    }
 }
 
-function Evaluate(){
-
-}
+function getAccountCookie() {
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    var UserAccount = ca[1].split('=')[1];
+    return UserAccount;
+  }
 

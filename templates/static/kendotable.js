@@ -1,10 +1,10 @@
-// var ProductData = [];
 var TestMember = "測試帳號";
 
 $(document).ready(function () {
     LoadShoppingChart();
     insertKendoWindow();
     EvaluateWindow();
+    SetAccountCookie(TestMember,24);
 
     var MarketList = [
         {text:"台北二",value:"台北二"},
@@ -233,4 +233,12 @@ function Evaluate(e){
 
     EvaluateMarketId = data.MarketId;
     EvaluateProductId = data.ProductId;
+}
+
+
+function SetAccountCookie(MemberId,Exhours){
+    var D = new Date();
+    D.setTime(D.getTime() + (Exhours * 60 * 60 * 1000));
+    var Expires = "expires="+ D.toUTCString();
+    document.cookie = "UserAccount = " + MemberId + ";" + Expires + ";path=/";
 }
