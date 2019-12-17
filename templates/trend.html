@@ -7,16 +7,37 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>中央買菜郎－Trend</title>
     <link rel = "stylesheet"  href = "{% static 'reset.css' %}">
+        <script>
+        var trend_data = "{{ prod|safe }}"
+        trend_data = trend_data.replace(/'/g,'"')
+        trend_data = JSON.parse(trend_data)
+    </script>
     <script src="{% static 'jquery-2.1.4.min.js' %}"></script>
     <script src="{% static 'kendo.all.min.js' %}"></script>
     <script src = "{% static 'data.js' %}" type= "text/javascript"></script>
+    <script src = "{% static 'trend.js' %}" type= "text/javascript"></script>
     <!-- <script src = "{% static 'kendotable.js' %}" type= "text/javascript"></script> -->
     <script src="{% static 'uikit.min.js' %}"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
+{#    <script src="http://static.pureexample.com/js/flot/excanvas.min.js"></script>#}
+    <script src="http://static.pureexample.com/js/flot/jquery.flot.min.js"></script>
+
     <link rel = "stylesheet" href = "{% static 'kendo.common-material.min.css' %}">
     <link rel = "stylesheet" href = "{% static 'kendo.material.min.css' %}">
     <link rel = "stylesheet"  href = "{% static 'product.css' %}">
+
+    <style type="text/css">
+#flotcontainer {
+    width: 1000px;
+    height: 500px;
+    text-align: center;
+    margin: 0 auto;
+    }
+</style>
+
+
+
 </head>
 <body>
     <div class = "Header">
@@ -35,7 +56,7 @@
     </div>
     <div class = "Container">
         <div class = "TableDiv">
-                <div id = "Grid"></div>
+                    <div id="flotcontainer"></div>
         </div>
     </div>
 </body>
