@@ -1,25 +1,24 @@
 var TestMember = "測試帳號";
+var MarketList = [
+    {text:"台北二",value:"台北二"},
+    {text:"台北市場",value:"台北市場"},
+    {text:"台北一",value:"台北一"},
+    {text:"板橋區",value:"板橋區"},
+    {text:"三重區",value:"三重區"}
+]
+var ProductList = [
+    // {pname:"椰子",value:"椰子"},
+    // {pname:"棗子",value:"棗子"},
+    // {pname:"釋迦",value:"釋迦"},
+    // {pname:"釋迦-鳳梨釋迦",value:"釋迦-鳳梨釋迦"},
+    // {pname:"草莓",value:"草莓"}
+];
 
 $(document).ready(function () {
     LoadShoppingChart();
     insertKendoWindow();
     EvaluateWindow();
     SetAccountCookie(TestMember,24);
-
-    var MarketList = [
-        {text:"台北二",value:"台北二"},
-        {text:"台北市場",value:"台北市場"},
-        {text:"台北一",value:"台北一"},
-        {text:"板橋區",value:"板橋區"},
-        {text:"三重區",value:"三重區"}
-    ]
-    var ProductList = [
-        {text:"椰子",value:"椰子"},
-        {text:"棗子",value:"棗子"},
-        {text:"釋迦",value:"釋迦"},
-        {text:"釋迦-鳳梨釋迦",value:"釋迦-鳳梨釋迦"},
-        {text:"草莓",value:"草莓"}
-    ];
     
 
     $("#MarketCategory").kendoDropDownList({
@@ -27,10 +26,11 @@ $(document).ready(function () {
         dataValueField: "value",
         dataSource: MarketList,
         index: 0,
+        change: ChangeFormItem
     });
 
     $("#ProductCategory").kendoDropDownList({
-        dataTextField: "text",
+        dataTextField: "pname",
         dataValueField: "value",
         dataSource: ProductList,
         index: 0,
@@ -233,4 +233,30 @@ function Evaluate(e){
 
     EvaluateMarketId = data.MarketId;
     EvaluateProductId = data.ProductId;
+}
+
+function ChangeFormItem() {
+    var SelecrMarketName = $("#MarketCategory option:selected").val();
+    var ProductCategoryList = $("#ProductCategory").data("kendoDropDownList");
+    console.log(SelecrMarketName);
+    data = [
+        {pname:"測試",value:"測試"},
+        {pname:"嗨嗨",value:"嗨嗨"},
+        {pname:"你好",value:"你好"},
+        {pname:"釋迦-鳳梨釋迦",value:"釋迦-鳳梨釋迦"},
+        {pname:"草莓",value:"草莓"}
+    ];
+    // $.ajax({
+    //     url: SelecrMarketName,
+    //     type: 'GET',
+    //     datatype: 'json',
+    //     success: function (data) {
+    //         if (data){
+    //             ProductList = data;
+    //             ProductCategoryList.dataSource.data(ProductList);
+    //         }
+    //     }
+    // })
+    ProductList = data;
+    ProductCategoryList.dataSource.data(ProductList);
 }
