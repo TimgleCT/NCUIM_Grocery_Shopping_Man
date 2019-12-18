@@ -73,25 +73,28 @@ def Trend(request):
 
 
 def select(request):
+    curdate = datetime.datetime.now().strftime(".%m.%d")
+    curyear = datetime.datetime.now().strftime("%Y")
+    realyear = str(int(curyear) - 1911)
+    querydate = realyear + curdate
     default_area = '台北二'
     if request.method == "GET":
-        area = list(CurrentPrice.objects.filter(MarketName=default_area).values())
+        area = list(CurrentPrice.objects.filter(MarketName=default_area, Date=querydate).values())
         print(area)
-        return render(request, "products.html", {'area': area, 'smallarea': area})
-    # elif 'condition' in request.POST['btn']:#待改
-    #     if request.POST['market'] != '-' and request.POST['selection'] == '-':#待改
-    #         default_area = request.POST['market']#待改
-    #         area = CurrentPrice.objects.filter(mname=default_area)
-    #         return render(request, "products.html", {'area': area,'smallarea':area})
-    #     elif request.POST['market'] == '-' and request.POST['selection'] == '-':
-    #         area = CurrentPrice.objects.filter(mname=default_area)
-    #         return render(request, "products.html", {'area': area,'smallarea':area})
-    #     else :
-    #         select_area = request.POST['market']
-    #         select_pro = request.POST['selection']
-    #         select_all = CurrentPrice.objects.filter(pname=select_pro, mname=select_area)
-    #         area = CurrentPrice.objects.filter(mname=select_area)
-    #         return render(request,"area.html",{'area':area,'smallarea':select_all})
+        return render(request, "products.html", {'area': area})
+    elif '確認' in request.POST['btn']:#待改
+        if request.POST['market'] != '-' and request.POST['selection'] == '-':#待改
+            default_area = request.POST['market']#待改
+            area = list(CurrentPrice.objects.filter(MarketName=default_area,Date=querydate).values())
+            return render(request, "products.html", {'area': area})
+        elif request.POST['market'] == '-' and request.POST['selection'] == '-':
+            area = list(CurrentPrice.objects.filter(MarketName=default_area,Date=querydate).values())
+            return render(request, "products.html", {'area': area})
+        else :
+            select_area = request.POST['market']
+            select_pro = request.POST['selection']
+            select_all = list(CurrentPrice.objects.filter(ProductName=select_pro, MarketName=select_area, Date=querydate).values())
+            return render(request,"products.html",{'area':select_all})
     # elif 'love' in request.POST['btn']:
     #     Fav_all = str(request.POST['btn'])
     #     Fav_mname = Fav_all.split(',')[1]
