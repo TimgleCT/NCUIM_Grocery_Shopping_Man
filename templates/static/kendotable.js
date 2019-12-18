@@ -108,19 +108,19 @@ function Favorite(e){
         var data = grid.dataItem(tr);
         var FavoriteJSON = TestMember + ',' + data.MarketId + ',' + data.ProductId;
         alert(FavoriteJSON);
-        // $.ajax({
-        //     url: "http://127.0.0.1:8000/products/InsertFavorite",    
-        //     data: FavoriteJSON,
-        //     contentType: 'application/json',
-        //     type: "POST",
-        //     traditional: true,    // 需要传递列表、字典时加上这句
-        //     success: function(result) {
-        //         alert("收藏成功");
-        //     },
-        //     fail: function(result) {
-        //         alert("收藏失敗")
-        //     }
-        // });
+        $.ajax({
+            url: FavoriteJSON,
+            type: "GET",
+            success: function(result) {
+                if (result === 'susscess')
+                    alert("收藏成功");
+                else
+                    alert("收藏清單已有了><");
+            },
+            fail: function(result) {
+                alert("收藏失敗")
+            }
+        });
     }
 }
 

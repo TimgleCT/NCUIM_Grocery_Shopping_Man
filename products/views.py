@@ -150,3 +150,7 @@ def delete(request):
     delet.delete()
     delet = Product.objects.all()
     delet.delete()
+
+def ADD_Favorite(request,FavoriteJSON):
+    print(FavoriteJSON)
+    return HttpResponse("susscess")
