@@ -128,3 +128,10 @@ label{
 .k-grid-content{
     height: 353px !important;
 }
+
+#flotcontainer {
+    width: 70%;
+    height: 500px;
+    text-align: center;
+    margin: auto;
+}

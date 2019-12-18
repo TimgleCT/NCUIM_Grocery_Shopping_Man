@@ -10,5 +10,6 @@ urlpatterns = [
     path('shoppingchart', views.ShoppingChart),
     path('del',views.delete),
     path('addmp',views.ADD_Market_Product),
-    path('addcp',views.save)
+    path('addcp',views.save),
+    path('<str:FavoriteJSON>',views.ADD_Favorite)
     ]
