@@ -42,18 +42,19 @@
         <div class = "TableDiv">
             <h2 id = "FilterInsert" class="GridHead">鎖定市場 / 產品</h2>
             <div id = "FilterForm">
-                <form id = "Filter" action="">
+                <form id = "Filter" action="." METHOD="post">
+                    {% csrf_token %}
                     <ul class = "ProductFilter">
                         <li class = "ProductFilterList">
                             <label>市場：</label>
-                            <select id = "MarketCategory" style = "width: 100%;"></select>
+                            <select id = "MarketCategory" name="market" style = "width: 100%;"></select>
                         </li>
                         <li class = "ProductFilterList">
                             <label>農產品：</label>
-                            <select id = "ProductCategory" style = "width: 100%;"></select>
+                            <select id = "ProductCategory" name="selection" style = "width: 100%;"></select>
                         </li>
                         <li class = "SubmitList">
-                            <input type = "submit" class="k-button k-primary" value="確認">
+                            <input type = "submit" class="k-button k-primary" name="btn" value="確認">
                         </li>
                     </ul>
                 </form>

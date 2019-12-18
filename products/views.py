@@ -5,23 +5,24 @@ from products.models import *
 import requests
 import datetime
 
+
 # Create your views here.
 
 
-
-def Trend(request):
-    return render(request, 'trend.html', {
-    
-    })
+# def Trend(request):
+#     return render(request, 'trend.html', {
+#
+#     })
 
 def Favorite(request):
     return render(request, 'favorite.html', {
-    
+
     })
+
 
 def ShoppingChart(request):
     return render(request, 'shoppingchart.html', {
-    
+
     })
 
 
@@ -55,47 +56,60 @@ def save(request):
                 MarketName=mname,
                 AveragePrice=avg
             )
-            print(save_data.Date,save_data.MarketName,save_data.ProductName,save_data.AveragePrice,created)
+            print(save_data.Date, save_data.MarketName, save_data.ProductName, save_data.AveragePrice, created)
             # save.save()
 
     return HttpResponse("save")
 
 
+def Trend(request):
+    default_prod = '椰子'
+    default_mkt = '台北二'
+    if request.method == "GET":
+        prod = list(CurrentPrice.objects.filter(ProductName=default_prod)
+                    .filter(MarketName=default_mkt).values('Date', 'AveragePrice'))
+        print(prod)
+        return render(request, "trend.html", {'prod': prod})
+
+
 def select(request):
+    curdate = datetime.datetime.now().strftime(".%m.%d")
+    curyear = datetime.datetime.now().strftime("%Y")
+    realyear = str(int(curyear) - 1911)
+    querydate = realyear + curdate
     default_area = '台北二'
     if request.method == "GET":
-        area = list(CurrentPrice.objects.filter(MarketName=default_area).values())
+        area = list(CurrentPrice.objects.filter(MarketName=default_area, Date=querydate).values())
         print(area)
-        return render(request,"products.html",{'area':area,'smallarea':area})
-    elif 'condition' in request.POST['btn']:#待改
+        return render(request, "products.html", {'area': area})
+    elif '確認' in request.POST['btn']:#待改
         if request.POST['market'] != '-' and request.POST['selection'] == '-':#待改
             default_area = request.POST['market']#待改
-            area = CurrentPrice.objects.filter(mname=default_area)
-            return render(request, "products.html", {'area': area,'smallarea':area})
+            area = list(CurrentPrice.objects.filter(MarketName=default_area,Date=querydate).values())
+            return render(request, "products.html", {'area': area})
         elif request.POST['market'] == '-' and request.POST['selection'] == '-':
-            area = CurrentPrice.objects.filter(mname=default_area)
-            return render(request, "products.html", {'area': area,'smallarea':area})
+            area = list(CurrentPrice.objects.filter(MarketName=default_area,Date=querydate).values())
+            return render(request, "products.html", {'area': area})
         else :
             select_area = request.POST['market']
             select_pro = request.POST['selection']
-            select_all = CurrentPrice.objects.filter(pname=select_pro, mname=select_area)
-            area = CurrentPrice.objects.filter(mname=select_area)
-            return render(request,"area.html",{'area':area,'smallarea':select_all})
-    elif 'love' in request.POST['btn']:
-        Fav_all = str(request.POST['btn'])
-        Fav_mname = Fav_all.split(',')[1]
-        Fav_pname = Fav_all.split(',')[3]
-        print(Fav_mname + Fav_pname)
-        area = CurrentPrice.objects.filter(mname=Fav_mname)
-        messages.success(request,'你已成功加入收藏!!')
-        return render(request,"area.html",{'area': area,'smallarea':area})
-    elif 'shop' in request.POST['btn']:
-        Shop_mname = str(request.POST['btn']).split(',')[1]
-        Shop_pname = str(request.POST['btn']).split(',')[3]
-        Check_list = CurrentPrice.objects.filter(mname=Shop_mname)
-        Check = request.POST[Shop_pname]
-        print(Check)
-        # print(request.POST['btn'])
+            select_all = list(CurrentPrice.objects.filter(ProductName=select_pro, MarketName=select_area, Date=querydate).values())
+            return render(request,"products.html",{'area':select_all})
+    # elif 'love' in request.POST['btn']:
+    #     Fav_all = str(request.POST['btn'])
+    #     Fav_mname = Fav_all.split(',')[1]
+    #     Fav_pname = Fav_all.split(',')[3]
+    #     print(Fav_mname + Fav_pname)
+    #     area = CurrentPrice.objects.filter(mname=Fav_mname)
+    #     messages.success(request,'你已成功加入收藏!!')
+    #     return render(request,"area.html",{'area': area,'smallarea':area})
+    # elif 'shop' in request.POST['btn']:
+    #     Shop_mname = str(request.POST['btn']).split(',')[1]
+    #     Shop_pname = str(request.POST['btn']).split(',')[3]
+    #     Check_list = CurrentPrice.objects.filter(mname=Shop_mname)
+    #     Check = request.POST[Shop_pname]
+    #     print(Check)
+    #     # print(request.POST['btn'])
 
 
 # def Add_Product(request): 新增作物
@@ -112,23 +126,24 @@ def select(request):
 #         M_Name, created = Market.objects.get_or_create(MarketNum=list['市場代號'], MarketName=list['市場名稱'])
 #         print(M_Name,created)
 
-def ADD_Market_Product (request):
+def ADD_Market_Product(request):
     url = "http://data.coa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx"
     data = requests.get(url).json()
     for list in data:
         if '市場' in list['市場名稱']:
             pass
         else:
-            P_Name ,created = Product.objects.get_or_create(ProductName=list['作物名稱'],ProductNum=list['作物代號'])
-            print(P_Name.ProductNum,P_Name.ProductName,created)
+            P_Name, created = Product.objects.get_or_create(ProductName=list['作物名稱'], ProductNum=list['作物代號'])
+            print(P_Name.ProductNum, P_Name.ProductName, created)
             M_Name, created = Market.objects.get_or_create(MarketNum=list['市場代號'], MarketName=list['市場名稱'])
-            print(M_Name.MarketNum,M_Name.MarketName,created)
+            print(M_Name.MarketNum, M_Name.MarketName, created)
             product = Product.objects.get(ProductNum=list['作物代號'])
             # print(product)
             market = Market.objects.get(MarketName=list['市場名稱'])
             # print(market)
-            MP_Name , created = MarketProduct.objects.get_or_create(MarketId=market, ProductId=product)
-            print(MP_Name.MarketId,MP_Name.ProductId,created)
+            MP_Name, created = MarketProduct.objects.get_or_create(MarketId=market, ProductId=product)
+            print(MP_Name.MarketId, MP_Name.ProductId, created)
+
 
 def delete(request):
     delet = Market.objects.all()
