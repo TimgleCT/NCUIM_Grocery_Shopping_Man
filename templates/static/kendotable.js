@@ -7,6 +7,7 @@ var MarketList = [
     {text:"三重區",value:"三重區"}
 ]
 var ProductList = [
+    {ProductName:"-",value:"-"}
     // {pname:"椰子",value:"椰子"},
     // {pname:"棗子",value:"棗子"},
     // {pname:"釋迦",value:"釋迦"},
@@ -19,7 +20,7 @@ $(document).ready(function () {
     insertKendoWindow();
     EvaluateWindow();
     SetAccountCookie(TestMember,24);
-    
+
 
     $("#MarketCategory").kendoDropDownList({
         dataTextField: "text",
@@ -30,11 +31,11 @@ $(document).ready(function () {
     });
 
     $("#ProductCategory").kendoDropDownList({
-        dataTextField: "pname",
+        dataTextField: "ProductName",
         dataValueField: "value",
         dataSource: ProductList,
         index: 0,
-    }); 
+    });
 
     $("#Grid").kendoGrid({
         dataSource: {
@@ -109,7 +110,7 @@ function Favorite(e){
         var FavoriteJSON = TestMember + ',' + data.MarketId + ',' + data.ProductId;
         alert(FavoriteJSON);
         $.ajax({
-            url: FavoriteJSON,
+            url: '/products/add/'+FavoriteJSON,
             type: "GET",
             success: function(result) {
                 if (result === 'susscess')
@@ -133,6 +134,8 @@ function insertKendoWindow(){
     var insertBar = $("#FilterInsert");
     insertBar.click(function() {
         insertWindow.data("kendoWindow").open();
+        $("#MarketCategory").data('kendoDropDownList').select(0);
+        ChangeFormItem();
     });
     insertWindow.kendoWindow({
         width: "400px",
@@ -236,27 +239,32 @@ function Evaluate(e){
 }
 
 function ChangeFormItem() {
-    var SelecrMarketName = $("#MarketCategory option:selected").val();
+    var SelectMarketName = $("#MarketCategory option:selected").val();
     var ProductCategoryList = $("#ProductCategory").data("kendoDropDownList");
-    console.log(SelecrMarketName);
-    data = [
-        {pname:"測試",value:"測試"},
-        {pname:"嗨嗨",value:"嗨嗨"},
-        {pname:"你好",value:"你好"},
-        {pname:"釋迦-鳳梨釋迦",value:"釋迦-鳳梨釋迦"},
-        {pname:"草莓",value:"草莓"}
-    ];
-    // $.ajax({
-    //     url: SelecrMarketName,
-    //     type: 'GET',
-    //     datatype: 'json',
-    //     success: function (data) {
-    //         if (data){
-    //             ProductList = data;
-    //             ProductCategoryList.dataSource.data(ProductList);
-    //         }
-    //     }
-    // })
-    ProductList = data;
-    ProductCategoryList.dataSource.data(ProductList);
+    console.log(SelectMarketName);
+    // data = [
+    //     {pname:"測試",value:"測試"},
+    //     {pname:"嗨嗨",value:"嗨嗨"},
+    //     {pname:"你好",value:"你好"},
+    //     {pname:"釋迦-鳳梨釋迦",value:"釋迦-鳳梨釋迦"},
+    //     {pname:"草莓",value:"草莓"}
+    // ];
+    $.ajax({
+        url: SelectMarketName,
+        type: 'GET',
+        datatype: 'json',
+        success: function (data) {
+            if (data){
+                ProductList = data;
+                ProductList = ProductList.replace(/'/g,'"');
+                ProductList = ProductList.replace('[',',' );
+                ProductList = '[{"ProductName": "-"}'+ ProductList;
+                ProductList = JSON.parse(ProductList);
+                ProductCategoryList.dataSource.data(ProductList);
+                $("#ProductCategory").data('kendoDropDownList').select(0);
+            }
+        }
+    });
+    // ProductList = data;
+    // ProductCategoryList.dataSource.data(ProductList);
 }

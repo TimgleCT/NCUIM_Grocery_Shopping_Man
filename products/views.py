@@ -1,6 +1,6 @@
 from django.core.checks import messages
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from products.models import *
 import requests
 import datetime
@@ -87,9 +87,6 @@ def select(request):
             default_area = request.POST['market']#待改
             area = list(CurrentPrice.objects.filter(MarketName=default_area,Date=querydate).values())
             return render(request, "products.html", {'area': area})
-        elif request.POST['market'] == '-' and request.POST['selection'] == '-':
-            area = list(CurrentPrice.objects.filter(MarketName=default_area,Date=querydate).values())
-            return render(request, "products.html", {'area': area})
         else :
             select_area = request.POST['market']
             select_pro = request.POST['selection']
@@ -154,3 +151,12 @@ def delete(request):
 def ADD_Favorite(request,FavoriteJSON):
     print(FavoriteJSON)
     return HttpResponse("susscess")
+
+def Change_Product(request,SelectMarketName):
+    curdate = datetime.datetime.now().strftime(".%m.%d")
+    curyear = datetime.datetime.now().strftime("%Y")
+    realyear = str(int(curyear) - 1911)
+    querydate = realyear + curdate
+    Change = list(CurrentPrice.objects.filter(MarketName=SelectMarketName,Date=querydate).values('ProductName'))
+    Change = str(Change)
+    return HttpResponse(Change)
