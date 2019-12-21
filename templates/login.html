@@ -18,27 +18,28 @@
                 <div class = "LogRegBlock">
                     <h2>登入</h2>
                     <div class = "LogRegInput">
-                            <form action = "">
+                            <form action = "http://127.0.0.1:8000/login/" method="post">
+                                {% csrf_token %}
                                 <div class = "InputBox">
-                                    帳號：<input type = "text" name = "">
-                                </div>  
+                                    帳號：<input type = "text" name = "username">
+                                </div>
                                 <div class = "InputBox">
-                                    密碼：<input type = "password" name = "">
-                                </div>  
+                                    密碼：<input type = "password" name = "password">
+                                </div>
                                 <div class = "InputSubmit">
                                     <input type = "submit" name = "" value = "登入">
-                                </div> 
+                                </div>
                             </form>
                                 <div class = "InputSubmit">
                                     <a href="http://127.0.0.1:8000/registered/">
                                         <button>註冊</button>
                                     </a>
-                                </div> 
+                                </div>
                         </div>
                 </div>
             </div>
             <!-- <div class = "Footer">
-                
+
             </div> -->
             <!-- <em>{{ current_time }}</em> -->
         </div>
