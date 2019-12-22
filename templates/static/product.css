@@ -60,7 +60,7 @@ body {
 .product-grid-toolbar input::placeholder{
     color:#98a1d2;
 }
-#FilterForm,#ShoppingForm{
+#FilterForm,#FilterForm_t,#ShoppingForm{
     margin: auto;
     background-color: rgb(114, 181, 243);
 }
@@ -77,6 +77,11 @@ body {
 #FilterInsert:hover{
     cursor: pointer;
 }
+
+#FilterInsert_t:hover{
+    cursor: pointer;
+}
+
 .SubmitList{
     padding: 10px 5% 10px 5%;
     float: right;
