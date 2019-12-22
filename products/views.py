@@ -41,9 +41,10 @@ def Favorites(request):
             'ProductName': product.ProductName,
             'MarketName': market.MarketName,
             'AveragePrice': avg.AveragePrice,
+            'Fav_id':MP.id,
         }
         js.append(mp)
-    print(type(js))
+    print(js)
     return render(request, 'favorite.html', {'FavoriteData':js
 
     })
@@ -240,3 +241,10 @@ def Change_trend(request,SelectMarketName_t):
     Change_t = list(CurrentPrice.objects.filter(MarketName=SelectMarketName_t,Date=querydate).values('ProductName'))
     Change_t = str(Change_t)
     return HttpResponse(Change_t)
+
+def Delete_Fav (request,DeleteBackEnd):
+    username = request.session['username']
+    user = Member.objects.get(MemberAccount=username)
+    mpid = str(DeleteBackEnd)
+    del_fav = Favorite.objects.get(MemberId=str(user.id),MPId=mpid)
+    del_fav.delete()
