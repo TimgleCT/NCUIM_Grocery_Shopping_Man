@@ -24,21 +24,18 @@ $(document).ready(function () {
 
     $("#Grid").kendoGrid({
         dataSource: {
-            data: FavoriteData,
+            data: fav_data,
             schema: {
                 model: {
                     fields: {
-                        id: {type:"int"},
-                        ProductId: { type: "string" },
                         ProductName: { type: "string" },
-                        MarketId: { type: "string" },
                         MarketName: { type: "string" },
                         AveragePrice: { type: "float" },
                     }
                 }
             },
             pageSize: 10,
-            sort: { field: "ProductId", dir: "asc" }//由大到小：desc
+            sort: { field: "ProductName", dir: "asc" }//由大到小：desc
         },
         toolbar: kendo.template("<div class='product-grid-toolbar'><input class='product-grid-search' placeholder='我想要找......' type='text'></input></div>"),
         height: 500,

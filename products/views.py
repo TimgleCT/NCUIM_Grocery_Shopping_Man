@@ -43,8 +43,8 @@ def Favorites(request):
             'AveragePrice': avg.AveragePrice,
         }
         js.append(mp)
-    print(js)
-    return render(request, 'favorite.html', {
+    print(type(js))
+    return render(request, 'favorite.html', {'FavoriteData':js
 
     })
 
