@@ -65,11 +65,21 @@ def save(request):
 def Trend(request):
     default_prod = '椰子'
     default_mkt = '台北二'
+    print('trend work')
     if request.method == "GET":
         prod = list(CurrentPrice.objects.filter(ProductName=default_prod)
                     .filter(MarketName=default_mkt).values('Date', 'AveragePrice'))
         print(prod)
         return render(request, "trend.html", {'prod': prod})
+    elif '送出' in request.POST['btn_t']:  # 待改
+        print('work Trend')
+        if request.POST['market_t'] != '-' and request.POST['selection_t'] != '-':
+            default_prod = request.POST['selection_t']
+            default_mkt = request.POST['market_t']
+            print('work')
+            prod = list(CurrentPrice.objects.filter(ProductName=default_prod)
+                        .filter(MarketName=default_mkt).values('Date', 'AveragePrice'))
+            return render(request, "trend.html", {'prod': prod})
 
 
 def select(request):
@@ -160,3 +170,13 @@ def Change_Product(request,SelectMarketName):
     Change = list(CurrentPrice.objects.filter(MarketName=SelectMarketName,Date=querydate).values('ProductName'))
     Change = str(Change)
     return HttpResponse(Change)
+
+def Change_trend(request,SelectMarketName_t):
+    print('change t')
+    curdate = datetime.datetime.now().strftime(".%m.%d")
+    curyear = datetime.datetime.now().strftime("%Y")
+    realyear = str(int(curyear) - 1911)
+    querydate = realyear + curdate
+    Change_t = list(CurrentPrice.objects.filter(MarketName=SelectMarketName_t,Date=querydate).values('ProductName'))
+    Change_t = str(Change_t)
+    return HttpResponse(Change_t)

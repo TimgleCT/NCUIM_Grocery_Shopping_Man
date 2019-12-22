@@ -49,6 +49,25 @@
     </div>
     <div class = "Container">
         <div class = "TableDiv">
+            <h2 id = "FilterInsert_t" class="GridHead">鎖定市場 / 產品</h2>
+            <div id = "FilterForm_t">
+                <form id = "Filter" action="./trend" METHOD="post">
+                    {% csrf_token %}
+                    <ul class = "ProductFilter">
+                        <li class = "ProductFilterList">
+                            <label>市場：</label>
+                            <select id = "MarketCategory_t" name="market_t" style = "width: 100%;"></select>
+                        </li>
+                        <li class = "ProductFilterList">
+                            <label>農產品：</label>
+                            <select id = "ProductCategory_t" name="selection_t" style = "width: 100%;"></select>
+                        </li>
+                        <li class = "SubmitList">
+                            <input type = "submit" class="k-button k-primary" name="btn_t" value="送出">
+                        </li>
+                    </ul>
+                </form>
+            </div>
                     <div id="flotcontainer"></div>
         </div>
     </div>

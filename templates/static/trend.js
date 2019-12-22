@@ -4,6 +4,18 @@ function gd(year, month, day) {
     return new Date(year, month-1, day).getTime()+29160000;
 }
 
+var MarketList = [
+    {text:"台北二",value:"台北二"},
+    {text:"台北市場",value:"台北市場"},
+    {text:"台北一",value:"台北一"},
+    {text:"板橋區",value:"板橋區"},
+    {text:"三重區",value:"三重區"}
+]
+
+var ProductList = [
+    {ProductName:"-",value:"-"}
+];
+
 function dateconvert(Data_prod) {
 
     for(i=0;i<7;i++){
@@ -42,10 +54,76 @@ var testdata = [
 ];
 
 
+function insertKendoWindow_t(){
+    //設定kendowindow顯示
+    var insertWindow = $("#FilterForm_t");
+    var insertBar = $("#FilterInsert_t");
+    insertBar.click(function() {
+        insertWindow.data("kendoWindow").open();
+        $("#MarketCategory_t").data('kendoDropDownList').select(0);
+        ChangeFormItem_t();
+    });
+
+    insertWindow.kendoWindow({
+        width: "400px",
+        title: "鎖定市場/產品",
+        visible: false,
+        actions: [
+            "Minimize",
+            "Close"
+        ],
+        position: {
+            top: "50%",
+            left: "50%"
+        }
+    }).data("kendoWindow").center();
+}
+
+function ChangeFormItem_t() {
+    console.log('trend CF work')
+    var SelectMarketName = $("#MarketCategory_t option:selected").val();
+    var ProductCategoryList = $("#ProductCategory_t").data("kendoDropDownList");
+    console.log(SelectMarketName);
+    $.ajax({
+        url: SelectMarketName,
+        type: 'GET',
+        datatype: 'json',
+        success: function (data) {
+            if (data){
+                ProductList = data;
+                ProductList = ProductList.replace(/'/g,'"');
+                ProductList = ProductList.replace('[',',' );
+                ProductList = '[{"ProductName": "-"}'+ ProductList;
+                ProductList = JSON.parse(ProductList);
+                ProductCategoryList.dataSource.data(ProductList);
+                $("#ProductCategory_t").data('kendoDropDownList').select(0);
+            }
+        }
+    });
+    // ProductList = data;
+    // ProductCategoryList.dataSource.data(ProductList);
+}
+
 
 $(document).ready(function () {
+    insertKendoWindow_t();
     dateconvert(trend_data);
     // console.log('function work');
+    $("#MarketCategory_t").kendoDropDownList({
+        dataTextField: "text",
+        dataValueField: "value",
+        dataSource: MarketList,
+        index: 0,
+        change: ChangeFormItem_t
+    });
+
+    $("#ProductCategory_t").kendoDropDownList({
+        dataTextField: "ProductName",
+        dataValueField: "value",
+        dataSource: ProductList,
+        index: 0,
+    });
+
 });
 
 $(function () {
