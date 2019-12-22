@@ -15,10 +15,17 @@ import datetime
 #     })
 
 def Favorites(request):
-    curdate = datetime.datetime.now().strftime(".%m.%d")
+    curdate = datetime.datetime.now()
+    yesdate = datetime.timedelta(days=1)
+    lastdate = curdate - yesdate
+    lastdate = lastdate.strftime(".%m.%d")
     curyear = datetime.datetime.now().strftime("%Y")
     realyear = str(int(curyear) - 1911)
-    querydate = realyear + curdate
+    if int(datetime.datetime.now().strftime("%H")) < 12:
+        querydate = realyear + lastdate
+    else:
+        curdate = curdate.strftime(".%m.%d")
+        querydate = realyear + curdate
     username = request.session['username']
     userid = Member.objects.get(MemberAccount=username)
     userFav = Favorite.objects.filter(MemberId=userid).values()
@@ -105,10 +112,17 @@ def Trend(request):
 
 
 def select(request):
-    curdate = datetime.datetime.now().strftime(".%m.%d")
+    curdate = datetime.datetime.now()
+    yesdate = datetime.timedelta(days=1)
+    lastdate = curdate - yesdate
+    lastdate = lastdate.strftime(".%m.%d")
     curyear = datetime.datetime.now().strftime("%Y")
     realyear = str(int(curyear) - 1911)
-    querydate = realyear + curdate
+    if int(datetime.datetime.now().strftime("%H")) < 12:
+        querydate = realyear + lastdate
+    else:
+        curdate = curdate.strftime(".%m.%d")
+        querydate = realyear + curdate
     default_area = '台北二'
     if request.method == "GET":
         area = list(CurrentPrice.objects.filter(MarketName=default_area, Date=querydate).values())
@@ -195,20 +209,34 @@ def ADD_Favorite(request,FavoriteJSON):
         return HttpResponse("no")
 
 def Change_Product(request,SelectMarketName):
-    curdate = datetime.datetime.now().strftime(".%m.%d")
+    curdate = datetime.datetime.now()
+    yesdate = datetime.timedelta(days=1)
+    lastdate = curdate - yesdate
+    lastdate = lastdate.strftime(".%m.%d")
     curyear = datetime.datetime.now().strftime("%Y")
     realyear = str(int(curyear) - 1911)
-    querydate = realyear + curdate
+    if int(datetime.datetime.now().strftime("%H")) < 12:
+        querydate = realyear + lastdate
+    else:
+        curdate = curdate.strftime(".%m.%d")
+        querydate = realyear + curdate
     Change = list(CurrentPrice.objects.filter(MarketName=SelectMarketName,Date=querydate).values('ProductName'))
     Change = str(Change)
     return HttpResponse(Change)
 
 def Change_trend(request,SelectMarketName_t):
     print('change t')
-    curdate = datetime.datetime.now().strftime(".%m.%d")
+    curdate = datetime.datetime.now()
+    yesdate = datetime.timedelta(days=1)
+    lastdate = curdate - yesdate
+    lastdate = lastdate.strftime(".%m.%d")
     curyear = datetime.datetime.now().strftime("%Y")
     realyear = str(int(curyear) - 1911)
-    querydate = realyear + curdate
+    if int(datetime.datetime.now().strftime("%H")) < 12:
+        querydate = realyear + lastdate
+    else:
+        curdate = curdate.strftime(".%m.%d")
+        querydate = realyear + curdate
     Change_t = list(CurrentPrice.objects.filter(MarketName=SelectMarketName_t,Date=querydate).values('ProductName'))
     Change_t = str(Change_t)
     return HttpResponse(Change_t)
