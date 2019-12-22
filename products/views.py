@@ -14,7 +14,29 @@ import datetime
 #
 #     })
 
-def Favorite(request):
+def Favorites(request):
+    curdate = datetime.datetime.now().strftime(".%m.%d")
+    curyear = datetime.datetime.now().strftime("%Y")
+    realyear = str(int(curyear) - 1911)
+    querydate = realyear + curdate
+    username = request.session['username']
+    userid = Member.objects.get(MemberAccount=username)
+    userFav = Favorite.objects.filter(MemberId=userid).values()
+    js = []
+    for item in userFav:
+        MP = MarketProduct.objects.get(id=item['MPId_id'])
+        market = Market.objects.get(id=MP.MarketId_id)
+        product = Product.objects.get(id=MP.ProductId_id)
+        print(market.MarketName, product.ProductName)
+        avg = CurrentPrice.objects.get(MarketName=market.MarketName, ProductName=product.ProductName, Date=querydate)
+        print(avg.AveragePrice)
+        mp = {
+            'ProductName': product.ProductName,
+            'MarketName': market.MarketName,
+            'AveragePrice': avg.AveragePrice,
+        }
+        js.append(mp)
+    print(js)
     return render(request, 'favorite.html', {
 
     })
@@ -159,8 +181,18 @@ def delete(request):
     delet.delete()
 
 def ADD_Favorite(request,FavoriteJSON):
-    print(FavoriteJSON)
-    return HttpResponse("susscess")
+    username = request.session['username']
+    user = Member.objects.get(MemberAccount=username)
+    FavoritMarket = str(FavoriteJSON).split(',')[0]
+    FavoriteProduct = str(FavoriteJSON).split(',')[1]
+    MarketName = Market.objects.get(MarketName=FavoritMarket)
+    ProductName = Product.objects.get(ProductName=FavoriteProduct)
+    MP = MarketProduct.objects.get(MarketId__id=str(MarketName.id), ProductId__id=str(ProductName.id))
+    fav, created = Favorite.objects.get_or_create(MPId=MP, MemberId=user)
+    if created == True:
+        return HttpResponse("success")
+    else:
+        return HttpResponse("no")
 
 def Change_Product(request,SelectMarketName):
     curdate = datetime.datetime.now().strftime(".%m.%d")
