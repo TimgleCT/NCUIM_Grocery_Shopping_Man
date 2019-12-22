@@ -120,7 +120,9 @@ em {
 .InputBox{
 	margin-top: 20px;
 	float: right;
-	padding-right: 20%;
+	padding-right: 15%;
+	padding-left: 15%;
+	width: 70%;
 }
 .InputSubmit{
 	margin-top: 20px;

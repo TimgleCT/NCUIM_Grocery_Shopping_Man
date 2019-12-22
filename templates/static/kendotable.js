@@ -107,16 +107,16 @@ function Favorite(e){
         //在當前的元素，DOM樹中向上遍歷，直到找到了與提供的選擇器相匹配的元素
         var tr = $(e.target).closest("tr");
         var data = grid.dataItem(tr);
-        var FavoriteJSON = TestMember + ',' + data.MarketId + ',' + data.ProductId;
+        var FavoriteJSON = data.MarketName + ',' + data.ProductName;
         alert(FavoriteJSON);
         $.ajax({
             url: '/products/add/'+FavoriteJSON,
             type: "GET",
             success: function(result) {
-                if (result === 'susscess')
+                if (result === 'success')
                     alert("收藏成功");
                 else
-                    alert("收藏清單已有了><");
+                    alert("收藏清單已有了>A<");
             },
             fail: function(result) {
                 alert("收藏失敗")

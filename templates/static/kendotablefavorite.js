@@ -89,22 +89,18 @@ function CancelFavorite(e){
         var data = grid.dataItem(tr);
         dataSource.remove(data);
 
-        var DeleteBackEnd = UserAccount + "," + data.MarketId + "," + data.ProductId;
+        var DeleteBackEnd = data.MarketName + "," + data.ProductName;
         alert(DeleteBackEnd);
-
-        // $.ajax({
-        //     url: "http://127.0.0.1:8000/products/DeleteFavorite",    
-        //     data: FavoriteJSON,
-        //     contentType: 'application/json',
-        //     type: "POST",
-        //     traditional: true,    // 需要传递列表、字典时加上这句
-        //     success: function(result) {
-        //         alert("成功");
-        //     },
-        //     fail: function(result) {
-        //         alert("失敗")
-        //     }
-        // });
+        $.ajax({
+            url: '/products/add/'+ DeleteBackEnd,
+            type: "GET",
+            success: function(result) {
+                alert("刪除成功");
+            },
+            fail: function(result) {
+                alert("刪除失敗")
+            }
+        });
     }
 }
 
