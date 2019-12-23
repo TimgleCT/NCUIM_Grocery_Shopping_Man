@@ -39,13 +39,13 @@ function dateconvert(Data_prod) {
         if(Data_prod[i] == null){
             DayPrice = "無本日資料";
         }else{
-            DayPrice = Data_prod[i].AveragePrice;
+            DayPrice = Data_prod[i].AveragePrice + "元";
         }
         
         if(i == Data_prod.length-7){
-            week_data_grid = week_data_grid + '"Day' + count + '":"' +DayPrice +'元"';
+            week_data_grid = week_data_grid + '"Day' + count + '":"' +DayPrice +'"';
         }else{
-            week_data_grid = week_data_grid + '"Day' + count + '":"' +DayPrice +'元",';
+            week_data_grid = week_data_grid + '"Day' + count + '":"' +DayPrice +'",';
         }
         count += 1;
 
@@ -138,12 +138,11 @@ function ChangeFormItem_t() {
 
 function Validation(){
     Status = $(".Status");
-    MPName = $("#Name");
     ProName = $("#ProductCategory_t option:selected").val();
     MarketName = $("#MarketCategory_t option:selected").val();
     if (ProName != "-") {
         Status.text("");
-        MPName.text(MarketName +","+ ProName);
+        SetCookie(MarketName,ProName,0.1);
         return true;
     } else {
         Status.text("請填寫完整資料!!");
@@ -151,11 +150,30 @@ function Validation(){
     }
 }
 
+function SetCookie(MarketName,ProductName,Exhours){
+    var D = new Date();
+    D.setTime(D.getTime() + (Exhours * 60 * 60 * 1000));
+    var Expires = "expires="+ D.toUTCString();
+    document.cookie = "MN = " + MarketName + ";" + Expires + ";path=/";
+    document.cookie = "PN = " + ProductName + ";" + Expires + ";path=/";
+}
+
+
+  function getCookie(name)//取cookies函数        
+  {
+      var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+       if(arr != null) return unescape(arr[2]); return null;
+  }
+
 
 $(document).ready(function () {
     insertKendoWindow_t();
     dateconvert(trend_data);
-    // console.log('function work');
+
+    if(getCookie("MN") != null && getCookie("PN")){
+        $("#Name").text(getCookie("MN") +","+ getCookie("PN"));
+    }
+
     $("#MarketCategory_t").kendoDropDownList({
         dataTextField: "text",
         dataValueField: "value",
