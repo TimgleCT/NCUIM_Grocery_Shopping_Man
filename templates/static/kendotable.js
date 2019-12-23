@@ -218,7 +218,22 @@ function ClickSubmit(){
         "TotalPrice":Math.round(EvaluateAveragePrice * Quantity)
     };
 
-    ShoppingChartList[DataPosition] = ShoppingChartLocal;
+    if(ShoppingChartList.length == 0){
+        ShoppingChartList[DataPosition] = ShoppingChartLocal;
+    }else{
+        for(var i = 0 ; i<ShoppingChartList.length; i++){
+            if(EvaluateMarketId == ShoppingChartList[i].MarketId && 
+                    EvaluateProductId == ShoppingChartList[i].ProductId){
+                        ShoppingChartList[i].Quantity +=  Quantity;
+                        ShoppingChartList[i].TotalPrice = Math.round(ShoppingChartList[i].Quantity * ShoppingChartList[i].AveragePrice);
+                        break;
+            }else if(i == ShoppingChartList.length - 1){
+                ShoppingChartList[DataPosition] = ShoppingChartLocal;
+            }
+        }
+    }
+    
+    // ShoppingChartList[DataPosition] = ShoppingChartLocal;
     localStorage.setItem("ShoppingChartData",JSON.stringify(ShoppingChartList));
 
     $("#ShoppingForm").data("kendoWindow").close();
