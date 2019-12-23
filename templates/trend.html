@@ -50,6 +50,7 @@
     <div class = "Container">
         <div class = "TableDiv">
             <h2 id = "FilterInsert_t" class="GridHead">鎖定市場 / 產品</h2>
+            <h2 id = "Name" class="GridHead BackgroundColor1">台北二，椰子</h2>
             <div id = "FilterForm_t">
                 <form id = "Filter" action="./trend" METHOD="post">
                     {% csrf_token %}
@@ -63,12 +64,14 @@
                             <select id = "ProductCategory_t" name="selection_t" style = "width: 100%;"></select>
                         </li>
                         <li class = "SubmitList">
-                            <input type = "submit" class="k-button k-primary" name="btn_t" value="送出">
+                            <input type = "submit" id = "SendTrend" class="k-button k-primary" name="btn_t" value="送出" onclick="return Validation()">
                         </li>
+                        <li class = "Status"></li>
                     </ul>
                 </form>
             </div>
-                    <div id="flotcontainer"></div>
+            <div id = "GridTrend"></div>
+            <div id="flotcontainer"></div>
         </div>
     </div>
 </body>

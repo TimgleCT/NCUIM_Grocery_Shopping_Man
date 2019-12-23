@@ -60,7 +60,7 @@ body {
 .product-grid-toolbar input::placeholder{
     color:#98a1d2;
 }
-#FilterForm,#ShoppingForm{
+#FilterForm,#ShoppingForm,#FilterForm_t{
     margin: auto;
     background-color: rgb(114, 181, 243);
 }
@@ -74,7 +74,7 @@ body {
     margin: auto;
     background-color: darkblue;
 }
-#FilterInsert:hover{
+#FilterInsert,#FilterInsert_t:hover{
     cursor: pointer;
 }
 .SubmitList{
@@ -126,13 +126,25 @@ label{
     padding-right: 30px;
     background-color: teal;
 }
-.k-grid-content{
+#Grid .k-grid-content{
     height: 353px !important;
 }
 
 #flotcontainer {
-    width: 70%;
+    width: 95%;
     height: 500px;
     text-align: center;
     margin: auto;
+}
+
+#GridTrend{
+    margin-bottom: 20px;
+}
+
+.BackgroundColor1{
+    background-color: #5b088b;
+}
+
+.Status{
+    color: red;
 }
