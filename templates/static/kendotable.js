@@ -28,7 +28,6 @@ $(document).ready(function () {
     LoadShoppingChart();
     insertKendoWindow();
     EvaluateWindow();
-    // SetAccountCookie(TestMember,24);
 
     
     if(pro_data[0].ProductId == "rest"){
@@ -120,7 +119,6 @@ function Search(){
 function Favorite(e){
     if(confirm("你確定要收藏此產品嗎?")){
         var grid = $("#Grid").data("kendoGrid");
-        var dataSource = grid.dataSource;
 
         //防止頁面滾動位置更改
         e.preventDefault();     
@@ -239,7 +237,6 @@ function ClickSubmit(){
         }
     }
     
-    // ShoppingChartList[DataPosition] = ShoppingChartLocal;
     localStorage.setItem("ShoppingChartData",JSON.stringify(ShoppingChartList));
 
     $("#ShoppingForm").data("kendoWindow").close();
@@ -277,13 +274,6 @@ function ChangeFormItem() {
     var SelectMarketName = $("#MarketCategory option:selected").val();
     var ProductCategoryList = $("#ProductCategory").data("kendoDropDownList");
     console.log(SelectMarketName);
-    // data = [
-    //     {pname:"測試",value:"測試"},
-    //     {pname:"嗨嗨",value:"嗨嗨"},
-    //     {pname:"你好",value:"你好"},
-    //     {pname:"釋迦-鳳梨釋迦",value:"釋迦-鳳梨釋迦"},
-    //     {pname:"草莓",value:"草莓"}
-    // ];
     $.ajax({
         url: '/products/changemarket/'+SelectMarketName,
         type: 'GET',
@@ -300,6 +290,4 @@ function ChangeFormItem() {
             }
         }
     });
-    // ProductList = data;
-    // ProductCategoryList.dataSource.data(ProductList);
 }

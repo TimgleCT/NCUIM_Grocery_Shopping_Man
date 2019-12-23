@@ -20,8 +20,6 @@ var FavoriteData = [
 var UserAccount;
 $(document).ready(function () {
 
-    UserAccount = getAccountCookie();
-
     $("#Grid").kendoGrid({
         dataSource: {
             data: fav_data,
@@ -107,10 +105,4 @@ function CancelFavorite(e){
     }
 }
 
-function getAccountCookie() {
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    var UserAccount = ca[1].split('=')[1];
-    return UserAccount;
-  }
 
