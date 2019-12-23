@@ -41,6 +41,11 @@ $(document).ready(function () {
         toolbar: kendo.template("<div class='product-grid-toolbar'><input class='product-grid-search' placeholder='我想要找......' type='text'></input></div>"),
         height: 500,
         sortable: true,
+        noRecords: {
+            template: function(e){
+                return "您還未收藏任何產品喔!";
+              }
+        },
         pageable: {
             refresh: true,
             pageSizes: true,

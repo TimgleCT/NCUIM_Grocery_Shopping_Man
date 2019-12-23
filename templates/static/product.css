@@ -153,3 +153,9 @@ label{
 .Status{
     color: red;
 }
+
+.k-grid-norecords{
+    font-size: 20px;
+    margin: 150px 0px 150px 0px;
+    height: auto ;
+}

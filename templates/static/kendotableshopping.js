@@ -21,6 +21,11 @@ $(document).ready(function () {
             },
             sort: { field: "ProductId", dir: "asc" }//由大到小：desc
         },
+        noRecords: {
+            template: function(e){
+                return "您還未將任何產品加入估價清單喔! ";
+              }
+        },
         sortable: true,
         pageable: false,
         columns: [

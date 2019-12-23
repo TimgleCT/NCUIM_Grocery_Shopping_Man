@@ -1,4 +1,4 @@
-var TestMember = "測試帳號";
+var NoDataMarket;
 var MarketList = [
     {text:"台北二",value:"台北二"},
     {text:"台北一",value:"台北一"},
@@ -22,18 +22,19 @@ var MarketList = [
 ]
 var ProductList = [
     {ProductName:"-",value:"-"}
-    // {pname:"椰子",value:"椰子"},
-    // {pname:"棗子",value:"棗子"},
-    // {pname:"釋迦",value:"釋迦"},
-    // {pname:"釋迦-鳳梨釋迦",value:"釋迦-鳳梨釋迦"},
-    // {pname:"草莓",value:"草莓"}
 ];
 
 $(document).ready(function () {
     LoadShoppingChart();
     insertKendoWindow();
     EvaluateWindow();
-    SetAccountCookie(TestMember,24);
+    // SetAccountCookie(TestMember,24);
+
+    
+    if(pro_data[0].ProductId == "rest"){
+        NoDataMarket = pro_data[0].MarketName;
+        pro_data = [];
+    }
 
 
     $("#MarketCategory").kendoDropDownList({
@@ -77,6 +78,11 @@ $(document).ready(function () {
             refresh: false,
             pageSizes: true,
             buttonCount: 5
+        },
+        noRecords: {
+            template: function(e){
+                return "今日 " + NoDataMarket + " 市場休市";
+              }
         },
         columns: [
             { field: "Date", title: "日期",width:"15%"},
