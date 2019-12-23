@@ -225,7 +225,7 @@ def Change_Product(request,SelectMarketName):
     Change = str(Change)
     return HttpResponse(Change)
 
-def Change_trend(request,SelectMarketName_t):
+def Change_trend(request,SelectMarketName):
     print('change t')
     curdate = datetime.datetime.now()
     yesdate = datetime.timedelta(days=1)
@@ -238,8 +238,17 @@ def Change_trend(request,SelectMarketName_t):
     else:
         curdate = curdate.strftime(".%m.%d")
         querydate = realyear + curdate
-    Change_t = list(CurrentPrice.objects.filter(MarketName=SelectMarketName_t,Date=querydate).values('ProductName'))
-    Change_t = str(Change_t)
+    mkid = Market.objects.get(MarketName=SelectMarketName)
+    mpid = MarketProduct.objects.filter(MarketId_id=str(mkid.id)).values()
+    js=[]
+    for item in mpid:
+        pro = Product.objects.get(id=item['ProductId_id'])
+        pname = {
+            'ProductName': pro.ProductName,
+        }
+        js.append(pname)
+    # Change_t = list(CurrentPrice.objects.filter(MarketName=SelectMarketName,Date=querydate).values('ProductName'))
+    Change_t = str(js)
     return HttpResponse(Change_t)
 
 def Delete_Fav (request,DeleteBackEnd):

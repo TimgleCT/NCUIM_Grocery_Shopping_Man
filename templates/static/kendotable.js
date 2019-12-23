@@ -285,7 +285,7 @@ function ChangeFormItem() {
     //     {pname:"草莓",value:"草莓"}
     // ];
     $.ajax({
-        url: SelectMarketName,
+        url: '/products/changemarket/'+SelectMarketName,
         type: 'GET',
         datatype: 'json',
         success: function (data) {

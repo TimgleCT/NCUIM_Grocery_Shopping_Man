@@ -119,7 +119,7 @@ function ChangeFormItem_t() {
     var ProductCategoryList = $("#ProductCategory_t").data("kendoDropDownList");
     console.log(SelectMarketName);
     $.ajax({
-        url: SelectMarketName,
+        url: '/products/trend/'+SelectMarketName,
         type: 'GET',
         datatype: 'json',
         success: function (data) {
