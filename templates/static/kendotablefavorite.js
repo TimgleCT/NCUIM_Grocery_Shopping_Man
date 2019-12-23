@@ -24,21 +24,19 @@ $(document).ready(function () {
 
     $("#Grid").kendoGrid({
         dataSource: {
-            data: FavoriteData,
+            data: fav_data,
             schema: {
                 model: {
                     fields: {
-                        id: {type:"int"},
-                        ProductId: { type: "string" },
                         ProductName: { type: "string" },
-                        MarketId: { type: "string" },
                         MarketName: { type: "string" },
                         AveragePrice: { type: "float" },
+                        Fav_id: {type: "string"},
                     }
                 }
             },
             pageSize: 10,
-            sort: { field: "ProductId", dir: "asc" }//由大到小：desc
+            sort: { field: "Fav_id", dir: "asc" }//由大到小：desc
         },
         toolbar: kendo.template("<div class='product-grid-toolbar'><input class='product-grid-search' placeholder='我想要找......' type='text'></input></div>"),
         height: 500,
@@ -89,10 +87,10 @@ function CancelFavorite(e){
         var data = grid.dataItem(tr);
         dataSource.remove(data);
 
-        var DeleteBackEnd = data.MarketName + "," + data.ProductName;
+        var DeleteBackEnd = data.Fav_id;
         alert(DeleteBackEnd);
         $.ajax({
-            url: '/products/add/'+ DeleteBackEnd,
+            url: '/products/delete/'+ DeleteBackEnd,
             type: "GET",
             success: function(result) {
                 alert("刪除成功");

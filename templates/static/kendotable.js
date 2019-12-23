@@ -1,10 +1,24 @@
 var TestMember = "測試帳號";
 var MarketList = [
     {text:"台北二",value:"台北二"},
-    {text:"台北市場",value:"台北市場"},
     {text:"台北一",value:"台北一"},
     {text:"板橋區",value:"板橋區"},
-    {text:"三重區",value:"三重區"}
+    {text:"三重區",value:"三重區"},
+    {text:"桃農",value:"桃農"},
+    {text:"台中市",value:"台中市"},
+    {text:"豐原區",value:"豐原區"},
+    {text:"溪湖鎮",value:"溪湖鎮"},
+    {text:"南投市",value:"南投市"},
+    {text:"嘉義市",value:"嘉義市"},
+    {text:"高雄市",value:"高雄市"},
+    {text:"鳳山區",value:"鳳山區"},
+    {text:"屏東市",value:"屏東市"},
+    {text:"台東市",value:"台東市"},
+    {text:"東勢鎮",value:"東勢鎮"},
+    {text:"宜蘭市",value:"宜蘭市"},
+    {text:"永靖鄉",value:"永靖鄉"},
+    {text:"西螺鎮",value:"西螺鎮"},
+    {text:"花蓮市",value:"花蓮市"},
 ]
 var ProductList = [
     {ProductName:"-",value:"-"}
