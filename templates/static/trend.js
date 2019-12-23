@@ -34,7 +34,7 @@ function dateconvert(Data_prod) {
     console.log(Data_prod);
     week_data_grid = week_data_grid +"[{";
     var count = 1;
-    for(i=Data_prod.length-1;i>=Data_prod.length-7;i--){
+    for(i=Data_prod.length-1;i>=Data_prod.length-6;i--){
 
         if(Data_prod[i] == null){
             DayPrice = "無本日資料";
@@ -42,7 +42,7 @@ function dateconvert(Data_prod) {
             DayPrice = Data_prod[i].AveragePrice + "元";
         }
         
-        if(i == Data_prod.length-7){
+        if(i == Data_prod.length-6){
             week_data_grid = week_data_grid + '"Day' + count + '":"' +DayPrice +'"';
         }else{
             week_data_grid = week_data_grid + '"Day' + count + '":"' +DayPrice +'",';
@@ -119,7 +119,7 @@ function ChangeFormItem_t() {
     var ProductCategoryList = $("#ProductCategory_t").data("kendoDropDownList");
     console.log(SelectMarketName);
     $.ajax({
-        url: SelectMarketName,
+        url: '/products/trend/'+SelectMarketName,
         type: 'GET',
         datatype: 'json',
         success: function (data) {

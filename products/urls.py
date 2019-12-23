@@ -12,6 +12,7 @@ urlpatterns = [
     path('addmp',views.ADD_Market_Product),
     path('addcp',views.save),
     path('add/<str:FavoriteJSON>',views.ADD_Favorite),
-    path('<str:SelectMarketName>',views.Change_Product),
-    path('delete/<str:DeleteBackEnd>',views.Delete_Fav)
+    path('changemarket/<str:SelectMarketName>',views.Change_Product),
+    path('delete/<str:DeleteBackEnd>',views.Delete_Fav),
+    path('trend/<str:SelectMarketName>',views.Change_trend),
     ]
