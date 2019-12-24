@@ -33,83 +33,32 @@ var ProductList = [
 function dateconvert(Data_prod) {
     console.log(Data_prod);
 
-    week_data_grid = week_data_grid +"[{";
+    week_data_grid = week_data_grid + "[{";
+    today = Data_prod[Data_prod.length - 1].Date;
 
-    var filt_pos = 6;
-    if(Data_prod.length>=7) {
+    // filt_pos = 0;
+    data_start = 0;
+    if(Data_prod.length <7){
+        data_start = 0;
+        console.log('data start at = '+data_start);
+    }else {
+        data_start = Data_prod.length - 7;
+        console.log('data start at = '+data_start);
+    }
 
-        for (j = Data_prod.length - 1; j >= Data_prod.length - 7; j--) {
-            // console.log(Data_prod[j].Date);
-            testdate = Data_prod[j].Date;
-            testday = testdate.split('.')[2];
-            // console.log('testday = ' + testday);
+    for(j = data_start; j<= Data_prod.length-1; j++){
+        testdate = Data_prod[j].Date;
+        testday = parseInt(testdate.split('.')[2]);
+        console.log('testday = '+ testday);
+        console.log('today = '+today.split('.')[2]);
 
-            pos = j;
-
-
-            if (pos == Data_prod.length - 1) {
-                // console.log('in j=7');
-                minus = j - 1;
-                complastdate = Data_prod[minus].Date;
-                complastday = complastdate.split('.')[2];
-                // console.log('complastday = ' + complastday);
-                if (testday - complastday == 1) {
-                    // console.log('testday-compday==1');
-                    // console.log('Date_prod['+j+']: '+Data_prod[j]);
-                    filted_data[filt_pos] = [Data_prod[j].Date, Data_prod[j].AveragePrice];
-                    console.log('filted_date[' + filt_pos + ']: ' + filted_data[filt_pos]);
-                } else {
-                    // console.log('testday-compday!=1');
-                    // console.log('Date_prod['+j+']: '+Data_prod[j]);
-                    filted_data[filt_pos] = null;
-                    console.log('filted_date[' + filt_pos + ']: ' + filted_data[filt_pos]);
-                }
-            } else if (pos > Data_prod.length - 7 && j < Data_prod.length - 1) {
-                // console.log('in j=6~2');
-                plus = j + 1;
-                minus = j - 1;
-                complastdate = Data_prod[minus].Date;
-                complastday = complastdate.split('.')[2];
-                comptomdate = Data_prod[plus].Date;
-                comptomday = comptomdate.split('.')[2];
-                // console.log('complastday = ' + complastday);
-                // console.log('comptomday = ' + comptomday);
-                if (testday - complastday == 1 || comptomday - testday == 1) {
-                    // console.log('testday-compday==1');
-                    // console.log('Date_prod['+j+']: '+Data_prod[j]);
-                    filted_data[filt_pos] = [Data_prod[j].Date, Data_prod[j].AveragePrice];
-                    console.log('filted_date[' + filt_pos + ']: ' + filted_data[filt_pos]);
-                } else {
-                    // console.log('testday-compday!=1');
-                    // console.log('Date_prod['+j+']: '+Data_prod[j]);
-                    filted_data[filt_pos] = null;
-                    console.log('filted_date[' + filt_pos + ']: ' + filted_data[filt_pos]);
-                }
-
-            } else if (pos == Data_prod.length - 7) {
-                // console.log('in j=1');
-                plus = j + 1;
-                comptomdate = Data_prod[plus].Date;
-                comptomday = comptomdate.split('.')[2];
-                // console.log('comptomday = ' + comptomday);
-                if (comptomday - testday == 1) {
-                    // console.log('comptomday-testday==1');
-                    // console.log('Date_prod['+j+']: '+Data_prod[j]);
-                    filted_data[filt_pos] = [Data_prod[j].Date, Data_prod[j].AveragePrice];
-                    console.log('filted_date[' + filt_pos + ']: ' + filted_data[filt_pos]);
-                } else {
-                    // console.log('comptomday-testday!=1');
-                    // console.log('Date_prod['+j+']: '+Data_prod[j]);
-                    filted_data[filt_pos] = null;
-                    console.log('filted_date[' + filt_pos + ']: ' + filted_data[filt_pos]);
-                }
-            }
-            filt_pos -= 1;
-            // console.log(j);
-            // console.log('pos:' +pos);
-        }
+        pos = 6 - (today.split('.')[2] - testday);
+        console.log('pos = '+pos);
+        filted_data[pos] = [Data_prod[j].Date, Data_prod[j].AveragePrice];
+    }
 
 
+        var week_data_pos = 0;
         var count = 1;
         // for(i=Data_prod.length-1;i>=Data_prod.length-7;i--){
         for (i = 0; i < 7; i++) {
@@ -143,7 +92,9 @@ function dateconvert(Data_prod) {
                 // console.log(o_day);
                 // console.log(gd(parseInt(o_year),parseInt(o_month),parseInt(o_day)),string_p);
                 // console.log(gd(108,12,17));
-                week_data[i] = [gd(parseInt(o_year), parseInt(o_month), parseInt(o_day)), string_p];
+                week_data[week_data_pos] = [gd(parseInt(o_year), parseInt(o_month), parseInt(o_day)), string_p];
+                week_data_pos +=1;
+                console.log('week_date['+i+']:');
                 console.log(week_data[i]);
             }
         }
@@ -152,29 +103,30 @@ function dateconvert(Data_prod) {
         week_data_grid = JSON.parse(week_data_grid);
         // console.log(week_data_grid);
         // console.log(week_data);
-    }else {
-        for (k=0;k<Data_prod.length;k++){
-            string_d = Data_prod[k].Date;
-            string_p = Data_prod[k].AveragePrice;
-            o_test = string_d.split(".");
-            o_year = string_d.split(".")[0];
-            o_month = string_d.split(".")[1];
-            o_day = string_d.split(".")[2];
-                // console.log(o_test);
-                // console.log(o_year);
-                // console.log(o_month);
-                // console.log(o_day);
-                // console.log(gd(parseInt(o_year),parseInt(o_month),parseInt(o_day)),string_p);
-                // console.log(gd(108,12,17));
-            week_data[k] = [gd(parseInt(o_year), parseInt(o_month), parseInt(o_day)), string_p];
-            console.log(week_data[k]);
-        }
-    }
+    // } else {
+    //     for (k = 0; k < Data_prod.length; k++) {
+    //         string_d = Data_prod[k].Date;
+    //         string_p = Data_prod[k].AveragePrice;
+    //         o_test = string_d.split(".");
+    //         o_year = string_d.split(".")[0];
+    //         o_month = string_d.split(".")[1];
+    //         o_day = string_d.split(".")[2];
+    //         // console.log(o_test);
+    //         // console.log(o_year);
+    //         // console.log(o_month);
+    //         // console.log(o_day);
+    //         // console.log(gd(parseInt(o_year),parseInt(o_month),parseInt(o_day)),string_p);
+    //         // console.log(gd(108,12,17));
+    //         week_data[k] = [gd(parseInt(o_year), parseInt(o_month), parseInt(o_day)), string_p];
+    //         console.log(week_data[k]);
+    //     }
+    // }
+
 }
-var filted_data = [];
+var filted_data = [null,null,null,null,null,null,null];
 var week_data = [];
 var week_data_grid = "";
-
+var today;
 
 
 var testdata = [
