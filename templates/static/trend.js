@@ -261,13 +261,13 @@ $(document).ready(function () {
         sortable: false,
         pageable: false,
         columns: [
-            { field: "Day1", title: "七天前", width: "15%" },
-            { field: "Day2", title: "六天前", width: "15%" },
-            { field: "Day3", title: "五天前", width: "15%" },
-            { field: "Day4", title: "四天前", width: "15%" },
-            { field: "Day5", title: "三天前", width: "15%" },
-            { field: "Day6", title: "二天前", width: "15%" },
-            { field: "Day7", title: "一天前", width: "15%" },
+            { field: "Day1", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-6).toString(), width: "15%" },
+            { field: "Day2", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-5).toString(), width: "15%" },
+            { field: "Day3", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-4).toString(), width: "15%" },
+            { field: "Day4", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-3).toString(), width: "15%" },
+            { field: "Day5", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-2).toString(), width: "15%" },
+            { field: "Day6", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-1).toString(), width: "15%" },
+            { field: "Day7", title: today.split('.')[1]+'/'+ today.split('.')[2], width: "15%" },
         ],
         editable: false
     });
