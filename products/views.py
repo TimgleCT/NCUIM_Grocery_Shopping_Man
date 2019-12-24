@@ -77,7 +77,7 @@ def save(request):
             mname = item['市場名稱']
             avg = item['平均價']
             save_data, created = CurrentPrice.objects.get_or_create(
-                Day=day,
+                DateId=day,
                 MPId=mp,
                 Date=date,
                 ProductId=pid,

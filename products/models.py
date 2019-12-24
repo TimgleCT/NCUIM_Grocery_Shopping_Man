@@ -10,7 +10,7 @@ class CurrentPrice(models.Model):
     MarketId = models.CharField(max_length=15)
     MarketName = models.CharField(max_length=15)
     AveragePrice = models.FloatField()
-    Day = models.ForeignKey('Date', on_delete=models.CASCADE,null=True)
+    DateId = models.ForeignKey('Date', on_delete=models.CASCADE,null=True)
     MPId = models.ForeignKey('MarketProduct', on_delete=models.CASCADE,null=True)
 
 
