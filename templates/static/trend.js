@@ -191,7 +191,7 @@ function SetCookie(MarketName,ProductName,Exhours){
     var exp = new Date();
     exp.setTime(exp.getTime() - 1);
     var cval = getCookie(name);
-    if (cval != null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+    if (cval != null) SetCookie("","",-1);
 }
 
 
@@ -199,7 +199,7 @@ $(document).ready(function () {
     insertKendoWindow_t();
     dateconvert(trend_data);
 
-    if(getCookie("MN") != null && getCookie("PN")){
+    if(getCookie("MN") != null && getCookie("PN") != null){
         $("#Name").text(getCookie("MN") +","+ getCookie("PN"));
         delCookie("MN");
         delCookie("PN");
@@ -286,33 +286,3 @@ $(document).ready(function () {
     
 
 });
-
-
-// $(function () {
-//     //
-//     // console.log('function1 work');
-
-//     $.plot($("#flotcontainer"),
-//         [
-//             {
-//               data: week_data,
-//               points: { show: true },
-//               lines: { show: true}
-//             }
-//         ],
-//         {
-//             grid: {
-//                 backgroundColor: { colors: ["#000000", "#000000"] }
-//             },
-//             xaxis: {
-//                 color: "#FFFFFF",
-//                 mode: "time",
-//                 timeformat: "%m/%d"
-//             },
-//             yaxis: {
-//                 color: "#FFFFFF"
-//             }
-
-//         }
-//     );
-// });
