@@ -202,6 +202,7 @@ function ClickSubmit(){
     LoadShoppingChart();
 
     var Quantity = parseInt(document.getElementById("Quantity").value);
+    console.log(Quantity);
     var DataPosition,Id;
     if(ShoppingChartList.length == 0){
         DataPosition = 0;
@@ -210,7 +211,7 @@ function ClickSubmit(){
         DataPosition = ShoppingChartList.length;
         Id = ShoppingChartList[DataPosition - 1].id + 1;
     }
-
+    console.log(Quantity);
     var ShoppingChartLocal = {
         "id":Id,
         "MarketId":EvaluateMarketId,
@@ -225,9 +226,9 @@ function ClickSubmit(){
     if(ShoppingChartList.length == 0){
         ShoppingChartList[DataPosition] = ShoppingChartLocal;
     }else{
-        for(var i = 0 ; i<ShoppingChartList.length; i++){
-            if(EvaluateMarketId == ShoppingChartList[i].MarketId && 
-                    EvaluateProductId == ShoppingChartList[i].ProductId){
+        var LoopNum = ShoppingChartList.length;
+        for(var i = 0 ; i<LoopNum; i++){
+            if(EvaluateMarketId == ShoppingChartList[i].MarketId && EvaluateProductId == ShoppingChartList[i].ProductId){
                         ShoppingChartList[i].Quantity +=  Quantity;
                         ShoppingChartList[i].TotalPrice = Math.round(ShoppingChartList[i].Quantity * ShoppingChartList[i].AveragePrice);
                         break;
@@ -240,7 +241,6 @@ function ClickSubmit(){
     localStorage.setItem("ShoppingChartData",JSON.stringify(ShoppingChartList));
 
     $("#ShoppingForm").data("kendoWindow").close();
-    alert(ShoppingChartList);
 }
 
 //鎖定市場與產品的window
