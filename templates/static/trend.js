@@ -1,6 +1,5 @@
 
 function gd(year, month, day) {
-    // return new Date(year, month-1, day+17).getTime()-1440000000;
     return new Date(year, month-1, day).getTime()+29160000;
 }
 
@@ -36,7 +35,6 @@ function dateconvert(Data_prod) {
     week_data_grid = week_data_grid + "[{";
     today = Data_prod[Data_prod.length - 1].Date;
 
-    // filt_pos = 0;
     data_start = 0;
     if(Data_prod.length <7){
         data_start = 0;
@@ -60,7 +58,7 @@ function dateconvert(Data_prod) {
 
         var week_data_pos = 0;
         var count = 1;
-        // for(i=Data_prod.length-1;i>=Data_prod.length-7;i--){
+
         for (i = 0; i < 7; i++) {
 
 
@@ -68,13 +66,13 @@ function dateconvert(Data_prod) {
                 DayPrice = "無本日資料";
             } else {
                 arr = filted_data[i];
-                DayPrice = arr[1];
+                DayPrice = arr[1] + "元";
             }
 
             if (i == 6) {
-                week_data_grid = week_data_grid + '"Day' + count + '":"' + DayPrice + '元"';
+                week_data_grid = week_data_grid + '"Day' + count + '":"' + DayPrice + '"';
             } else {
-                week_data_grid = week_data_grid + '"Day' + count + '":"' + DayPrice + '元",';
+                week_data_grid = week_data_grid + '"Day' + count + '":"' + DayPrice + '",';
             }
             count += 1;
 
@@ -86,12 +84,7 @@ function dateconvert(Data_prod) {
                 o_year = string_d.split(".")[0];
                 o_month = string_d.split(".")[1];
                 o_day = string_d.split(".")[2];
-                // console.log(o_test);
-                // console.log(o_year);
-                // console.log(o_month);
-                // console.log(o_day);
-                // console.log(gd(parseInt(o_year),parseInt(o_month),parseInt(o_day)),string_p);
-                // console.log(gd(108,12,17));
+        
                 week_data[week_data_pos] = [gd(parseInt(o_year), parseInt(o_month), parseInt(o_day)), string_p];
                 week_data_pos +=1;
                 console.log('week_date['+i+']:');
@@ -101,27 +94,6 @@ function dateconvert(Data_prod) {
         week_data_grid = week_data_grid + "}]";
         console.log(week_data_grid);
         week_data_grid = JSON.parse(week_data_grid);
-        // console.log(week_data_grid);
-        // console.log(week_data);
-    // } else {
-    //     for (k = 0; k < Data_prod.length; k++) {
-    //         string_d = Data_prod[k].Date;
-    //         string_p = Data_prod[k].AveragePrice;
-    //         o_test = string_d.split(".");
-    //         o_year = string_d.split(".")[0];
-    //         o_month = string_d.split(".")[1];
-    //         o_day = string_d.split(".")[2];
-    //         // console.log(o_test);
-    //         // console.log(o_year);
-    //         // console.log(o_month);
-    //         // console.log(o_day);
-    //         // console.log(gd(parseInt(o_year),parseInt(o_month),parseInt(o_day)),string_p);
-    //         // console.log(gd(108,12,17));
-    //         week_data[k] = [gd(parseInt(o_year), parseInt(o_month), parseInt(o_day)), string_p];
-    //         console.log(week_data[k]);
-    //     }
-    // }
-
 }
 var filted_data = [null,null,null,null,null,null,null];
 var week_data = [];
@@ -135,8 +107,6 @@ var testdata = [
     [gd(2019,12,19),87.87],
     [gd(2019,12,20),77.77],
     [gd(2019,12,21),99.77]
-    // [gd(2019,12,22),88.77],
-    // [gd(2019,12,23),99]
 ];
 
 
@@ -271,35 +241,69 @@ $(document).ready(function () {
         ],
         editable: false
     });
-
-});
-
-
-$(function () {
-    //
-    // console.log('function1 work');
-
-    $.plot($("#flotcontainer"),
+    setTimeout(function(){$.plot($("#flotcontainer"),
         [
             {
               data: week_data,
               points: { show: true },
-              lines: { show: true}
+              lines: { 
+                show: true,
+                lineWidth: 5,
+                }
             }
         ],
         {
             grid: {
-                backgroundColor: { colors: ["#000000", "#000000"] }
+                backgroundColor: { colors: ["#764ba2", "#764ba2"] },
+                borderColor: "#FFFFFF",
+                borderWidth: 5,
             },
             xaxis: {
                 color: "#FFFFFF",
                 mode: "time",
-                timeformat: "%y/%m/%d"
+                timeformat: "%m/%d",
             },
             yaxis: {
-                color: "#FFFFFF"
-            }
+                color: "#FFFFFF",
+            },
+            points: {
+                //資料點的半徑大小
+                radius: 10
+            },
+            colors: ["#FFDDAA"]
+        },
+        
+    )},10)
+    
 
-        }
-    );
 });
+
+
+// $(function () {
+//     //
+//     // console.log('function1 work');
+
+//     $.plot($("#flotcontainer"),
+//         [
+//             {
+//               data: week_data,
+//               points: { show: true },
+//               lines: { show: true}
+//             }
+//         ],
+//         {
+//             grid: {
+//                 backgroundColor: { colors: ["#000000", "#000000"] }
+//             },
+//             xaxis: {
+//                 color: "#FFFFFF",
+//                 mode: "time",
+//                 timeformat: "%m/%d"
+//             },
+//             yaxis: {
+//                 color: "#FFFFFF"
+//             }
+
+//         }
+//     );
+// });
