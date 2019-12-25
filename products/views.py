@@ -276,3 +276,4 @@ def Delete_Fav (request,DeleteBackEnd):
     mpid = str(DeleteBackEnd)
     del_fav = Favorite.objects.get(MemberId=str(user.id),MPId=mpid)
     del_fav.delete()
+    return HttpResponse("OK")

@@ -20,7 +20,8 @@ var MarketList = [
     {text:"西螺鎮",value:"西螺鎮"},
     {text:"花蓮市",value:"花蓮市"},
 ]
-var ProductList = [
+var ProductList=[];
+var DefaultList = [
     {ProductName:"-",value:"-"}
 ];
 
@@ -285,13 +286,17 @@ function ChangeFormItem() {
         type: 'GET',
         datatype: 'json',
         success: function (data) {
-            if (data){
+            if (data != '[]'){
                 ProductList = data;
                 ProductList = ProductList.replace(/'/g,'"');
                 ProductList = ProductList.replace('[',',' );
                 ProductList = '[{"ProductName": "-"}'+ ProductList;
                 ProductList = JSON.parse(ProductList);
                 ProductCategoryList.dataSource.data(ProductList);
+                $("#ProductCategory").data('kendoDropDownList').select(0);
+            }
+            else {
+                ProductCategoryList.dataSource.data(DefaultList);
                 $("#ProductCategory").data('kendoDropDownList').select(0);
             }
         }
