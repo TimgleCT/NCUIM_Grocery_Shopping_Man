@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>中央買菜郎－Trend</title>
     <link rel = "stylesheet"  href = "{% static 'reset.css' %}">
-        <script>
+    <script>
         var trend_data = "{{ prod|safe }}"
         trend_data = trend_data.replace(/'/g,'"')
         trend_data = JSON.parse(trend_data)
@@ -45,7 +45,7 @@
         </ul>
     </div>
     <div class = "Container">
-        <div class = "TableDiv">
+        < class = "TableDiv">
             <h2 id = "FilterInsert_t" class="GridHead">鎖定市場 / 產品</h2>
             <h2 id = "Name" class="GridHead BackgroundColor1">台北二，椰子</h2>
             <div id = "FilterForm_t">
@@ -70,6 +70,7 @@
             <div id = "GridTrend"></div>
             <!-- <div id="flotcontainer" style="height: 500px; width: 1000px; text-align: center; margin: auto"></div> -->
             <div id="flotcontainer"></div>
+
         </div>
     </div>
 </body>

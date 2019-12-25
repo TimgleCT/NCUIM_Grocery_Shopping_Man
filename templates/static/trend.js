@@ -22,7 +22,7 @@ var MarketList = [
     {text:"宜蘭市",value:"宜蘭市"},
     {text:"永靖鄉",value:"永靖鄉"},
     {text:"西螺鎮",value:"西螺鎮"},
-    {text:"花蓮市",value:"花蓮市"},
+    {text:"花蓮市",value:"花蓮市"}
 ]
 
 var ProductList = [
@@ -30,43 +30,70 @@ var ProductList = [
 ];
 
 function dateconvert(Data_prod) {
+    console.log(trend_data);
     console.log(Data_prod);
 
-    week_data_grid = week_data_grid + "[{";
-    today = Data_prod[Data_prod.length - 1].Date;
+    if(Data_prod == ""){
+        var whatday = new Date();
+        today = whatday.getFullYear()+'.'+(whatday.getMonth()+1)+'.'+whatday.getDate();
+        console.log(today);
+        week_data = [null,null,null,null,null,null,null];
 
-    data_start = 0;
-    if(Data_prod.length <7){
-        data_start = 0;
-        console.log('data start at = '+data_start);
+        week_data_grid = week_data_grid + "[{";
+        for(i = 0;i<7;i++){
+            if (week_data[i] == null ||week_data[i].AveragePrice == 0) {
+                DayPrice = "無本日資料";
+                count = i+1;
+                if(i<6) {
+                    week_data_grid = week_data_grid + '"Day' + count + '":"' + DayPrice + '",';
+                }else {
+                    week_data_grid = week_data_grid + '"Day' + count + '":"' + DayPrice + '"';
+                }
+            }
+        }
+        week_data_grid = week_data_grid + "}]";
+        console.log(week_data_grid);
+        week_data_grid = JSON.parse(week_data_grid);
     }else {
-        data_start = Data_prod.length - 7;
-        console.log('data start at = '+data_start);
-    }
+        week_data_grid = week_data_grid + "[{";
+        today = Data_prod[Data_prod.length - 1].Date;
 
-    for(j = data_start; j<= Data_prod.length-1; j++){
-        testdate = Data_prod[j].Date;
-        testday = parseInt(testdate.split('.')[2]);
-        console.log('testday = '+ testday);
-        console.log('today = '+today.split('.')[2]);
+        data_start = 0;
 
-        pos = 6 - (today.split('.')[2] - testday);
-        console.log('pos = '+pos);
-        filted_data[pos] = [Data_prod[j].Date, Data_prod[j].AveragePrice];
-    }
+
+        if (Data_prod.length < 7) {
+            data_start = 0;
+            console.log('data start at = ' + data_start);
+        } else {
+            data_start = Data_prod.length - 7;
+            console.log('data start at = ' + data_start);
+        }
+
+        for (j = data_start; j <= Data_prod.length - 1; j++) {
+            testdate = Data_prod[j].Date;
+            testday = parseInt(testdate.split('.')[2]);
+            console.log('testday = ' + testday);
+            console.log('today = ' + today.split('.')[2]);
+
+            pos = 6 - (today.split('.')[2] - testday);
+            console.log('pos = ' + pos);
+            filted_data[pos] = [Data_prod[j].Date, Data_prod[j].AveragePrice];
+        }
 
 
         var week_data_pos = 0;
         var count = 1;
-
         for (i = 0; i < 7; i++) {
-
 
             if (filted_data[i] == null) {
                 DayPrice = "無本日資料";
             } else {
                 arr = filted_data[i];
+                if(arr[1] != 0){
                 DayPrice = arr[1] + "元";
+                }else {
+                    DayPrice = "無本日資料";
+                }
             }
 
             if (i == 6) {
@@ -80,20 +107,31 @@ function dateconvert(Data_prod) {
                 arr = filted_data[i];
                 string_d = arr[0];
                 string_p = arr[1];
-                o_test = string_d.split(".");
-                o_year = string_d.split(".")[0];
-                o_month = string_d.split(".")[1];
-                o_day = string_d.split(".")[2];
-        
-                week_data[week_data_pos] = [gd(parseInt(o_year), parseInt(o_month), parseInt(o_day)), string_p];
-                week_data_pos +=1;
-                console.log('week_date['+i+']:');
-                console.log(week_data[i]);
+                if (string_p != 0) {
+                    o_test = string_d.split(".");
+                    o_year = string_d.split(".")[0];
+                    o_month = string_d.split(".")[1];
+                    o_day = string_d.split(".")[2];
+
+                    week_data[week_data_pos] = [gd(parseInt(o_year), parseInt(o_month), parseInt(o_day)), string_p];
+                    week_data_pos += 1;
+                    console.log('week_date[' + i + ']:');
+                }else {
+                    week_data[week_data_pos] = null;
+                    week_data_pos += 1;
+                }
+
             }
         }
+
         week_data_grid = week_data_grid + "}]";
         console.log(week_data_grid);
         week_data_grid = JSON.parse(week_data_grid);
+        console.log('filt data: '+ filted_data);
+        console.log('week data' + week_data);
+
+
+    }
 }
 var filted_data = [null,null,null,null,null,null,null];
 var week_data = [];
@@ -181,7 +219,7 @@ function SetCookie(MarketName,ProductName,Exhours){
 }
 
 
-  function getCookie(name)//取cookies函数        
+function getCookie(name)//取cookies函数
   {
       var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
        if(arr != null) return unescape(arr[2]); return null;
@@ -219,7 +257,7 @@ $(document).ready(function () {
         dataSource: ProductList,
         index: 0,
     });
-    
+
     $("#GridTrend").kendoGrid({
         dataSource: {
             data: week_data_grid,
@@ -250,39 +288,41 @@ $(document).ready(function () {
         ],
         editable: false
     });
-    setTimeout(function(){$.plot($("#flotcontainer"),
-        [
-            {
-              data: week_data,
-              points: { show: true },
-              lines: { 
-                show: true,
-                lineWidth: 5,
-                }
-            }
-        ],
-        {
-            grid: {
-                backgroundColor: { colors: ["#764ba2", "#764ba2"] },
-                borderColor: "#FFFFFF",
-                borderWidth: 5,
-            },
-            xaxis: {
-                color: "#FFFFFF",
-                mode: "time",
-                timeformat: "%m/%d",
-            },
-            yaxis: {
-                color: "#FFFFFF",
-            },
-            points: {
-                //資料點的半徑大小
-                radius: 10
-            },
-            colors: ["#FFDDAA"]
-        },
-        
-    )},10)
-    
+    if(trend_data != '' && week_data != '') {
+        setTimeout(function () {
+            $.plot($("#flotcontainer"),
+                [
+                    {
+                        data: week_data,
+                        points: {show: true},
+                        lines: {
+                            show: true,
+                            lineWidth: 5,
+                        }
+                    }
+                ],
+                {
+                    grid: {
+                        backgroundColor: {colors: ["#764ba2", "#764ba2"]},
+                        borderColor: "#FFFFFF",
+                        borderWidth: 5,
+                    },
+                    xaxis: {
+                        color: "#FFFFFF",
+                        mode: "time",
+                        timeformat: "%m/%d",
+                    },
+                    yaxis: {
+                        color: "#FFFFFF",
+                    },
+                    points: {
+                        //資料點的半徑大小
+                        radius: 10
+                    },
+                    colors: ["#FFDDAA"]
+                },
+            )
+        }, 10)
 
+    }
 });

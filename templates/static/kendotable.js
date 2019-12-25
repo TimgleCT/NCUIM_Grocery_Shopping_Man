@@ -30,7 +30,9 @@ $(document).ready(function () {
     EvaluateWindow();
 
     
-    if(pro_data[0].ProductId == "rest"){
+    if(pro_data == "") {
+        NoDataMarket = null;
+    }else if(pro_data[0].ProductId == "rest"){
         NoDataMarket = pro_data[0].MarketName;
         pro_data = [];
     }
