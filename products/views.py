@@ -15,54 +15,57 @@ import datetime
 #     })
 
 def Favorites(request):
-    curdate = datetime.datetime.now()
-    yesdate = datetime.timedelta(days=1)
-    lastdate = curdate - yesdate
-    lastdate = lastdate.strftime(".%m.%d")
-    curyear = datetime.datetime.now().strftime("%Y")
-    realyear = str(int(curyear) - 1911)
-    if int(datetime.datetime.now().strftime("%H")) < 12:
-        querydate = realyear + lastdate
-    else:
-        curdate = curdate.strftime(".%m.%d")
-        querydate = realyear + curdate
-    username = request.session['username']
-    userid = Member.objects.get(MemberAccount=username)
-    userFav = Favorite.objects.filter(MemberId=userid).values()
-    js = []
-    for item in userFav:
-        MP = MarketProduct.objects.get(id=item['MPId_id'])
-        market = Market.objects.get(id=MP.MarketId_id)
-        product = Product.objects.get(id=MP.ProductId_id)
-        print(market.MarketName, product.ProductName)
-        try:
-            avg = CurrentPrice.objects.get(MarketName=market.MarketName, ProductName=product.ProductName, Date=querydate)
-            print(avg.AveragePrice)
-            mp = {
-                'ProductName': product.ProductName,
-                'MarketName': market.MarketName,
-                'AveragePrice': avg.AveragePrice,
-                'Fav_id':MP.id,
-            }
-        except:
-            mp = {
-                'ProductName': product.ProductName,
-                'MarketName': market.MarketName,
-                'AveragePrice': "無今日資料",
-                'Fav_id': MP.id,
-            }
-        js.append(mp)
-    print(js)
-    return render(request, 'favorite.html', {'FavoriteData':js
-
-    })
+    try:
+        checklogin = request.session["username"]
+        curdate = datetime.datetime.now()
+        yesdate = datetime.timedelta(days=1)
+        lastdate = curdate - yesdate
+        lastdate = lastdate.strftime(".%m.%d")
+        curyear = datetime.datetime.now().strftime("%Y")
+        realyear = str(int(curyear) - 1911)
+        if int(datetime.datetime.now().strftime("%H")) < 12:
+            querydate = realyear + lastdate
+        else:
+            curdate = curdate.strftime(".%m.%d")
+            querydate = realyear + curdate
+        username = request.session['username']
+        userid = Member.objects.get(MemberAccount=username)
+        userFav = Favorite.objects.filter(MemberId=userid).values()
+        js = []
+        for item in userFav:
+            MP = MarketProduct.objects.get(id=item['MPId_id'])
+            market = Market.objects.get(id=MP.MarketId_id)
+            product = Product.objects.get(id=MP.ProductId_id)
+            print(market.MarketName, product.ProductName)
+            try:
+                avg = CurrentPrice.objects.get(MarketName=market.MarketName, ProductName=product.ProductName, Date=querydate)
+                print(avg.AveragePrice)
+                mp = {
+                    'ProductName': product.ProductName,
+                    'MarketName': market.MarketName,
+                    'AveragePrice': avg.AveragePrice,
+                    'Fav_id':MP.id,
+                }
+            except:
+                mp = {
+                    'ProductName': product.ProductName,
+                    'MarketName': market.MarketName,
+                    'AveragePrice': "無今日資料",
+                    'Fav_id': MP.id,
+                }
+            js.append(mp)
+        print(js)
+        return render(request, 'favorite.html', {'FavoriteData':js})
+    except:
+        return render(request, "index.html")
 
 
 def ShoppingChart(request):
-    return render(request, 'shoppingchart.html', {
-
-    })
-
+    try:
+        checklogin = request.session["username"]
+        return render(request, 'shoppingchart.html', {})
+    except:
+        return render(request, "index.html")
 
 def save(request):
     curdate = datetime.datetime.now().strftime("%m.%d")
@@ -101,52 +104,60 @@ def save(request):
 
 
 def Trend(request):
-    default_prod = '椰子'
-    default_mkt = '台北二'
-    print('trend work')
-    if request.method == "GET":
-        prod = list(CurrentPrice.objects.filter(ProductName=default_prod)
-                    .filter(MarketName=default_mkt).values('Date', 'AveragePrice'))
-        print(prod)
-        return render(request, "trend.html", {'prod': prod})
-    elif '送出' in request.POST['btn_t']:  # 待改
-        print('work Trend')
-        if request.POST['market_t'] != '-' and request.POST['selection_t'] != '-':
-            default_prod = request.POST['selection_t']
-            default_mkt = request.POST['market_t']
-            print('work')
+    try:
+        checklogin = request.session["username"]
+        default_prod = '椰子'
+        default_mkt = '台北二'
+        print('trend work')
+        if request.method == "GET":
             prod = list(CurrentPrice.objects.filter(ProductName=default_prod)
                         .filter(MarketName=default_mkt).values('Date', 'AveragePrice'))
+            print(prod)
             return render(request, "trend.html", {'prod': prod})
+        elif '送出' in request.POST['btn_t']:  # 待改
+            print('work Trend')
+            if request.POST['market_t'] != '-' and request.POST['selection_t'] != '-':
+                default_prod = request.POST['selection_t']
+                default_mkt = request.POST['market_t']
+                print('work')
+                prod = list(CurrentPrice.objects.filter(ProductName=default_prod)
+                            .filter(MarketName=default_mkt).values('Date', 'AveragePrice'))
+                return render(request, "trend.html", {'prod': prod})
+    except:
+        return render(request, "index.html")
 
 
 def select(request):
-    curdate = datetime.datetime.now()
-    yesdate = datetime.timedelta(days=1)
-    lastdate = curdate - yesdate
-    lastdate = lastdate.strftime(".%m.%d")
-    curyear = datetime.datetime.now().strftime("%Y")
-    realyear = str(int(curyear) - 1911)
-    if int(datetime.datetime.now().strftime("%H")) < 12:
-        querydate = realyear + lastdate
-    else:
-        curdate = curdate.strftime(".%m.%d")
-        querydate = realyear + curdate
-    default_area = '台北二'
-    if request.method == "GET":
-        area = list(CurrentPrice.objects.filter(MarketName=default_area, Date=querydate).values())
-        print(area)
-        return render(request, "products.html", {'area': area})
-    elif '確認' in request.POST['btn']:#待改
-        if request.POST['market'] != '-' and request.POST['selection'] == '-':#待改
-            default_area = request.POST['market']#待改
-            area = list(CurrentPrice.objects.filter(MarketName=default_area,Date=querydate).values())
+    try:
+        checklogin = request.session["username"]
+        curdate = datetime.datetime.now()
+        yesdate = datetime.timedelta(days=1)
+        lastdate = curdate - yesdate
+        lastdate = lastdate.strftime(".%m.%d")
+        curyear = datetime.datetime.now().strftime("%Y")
+        realyear = str(int(curyear) - 1911)
+        if int(datetime.datetime.now().strftime("%H")) < 12:
+            querydate = realyear + lastdate
+        else:
+            curdate = curdate.strftime(".%m.%d")
+            querydate = realyear + curdate
+        default_area = '台北二'
+        if request.method == "GET":
+            area = list(CurrentPrice.objects.filter(MarketName=default_area, Date=querydate).values())
+            print(area)
             return render(request, "products.html", {'area': area})
-        else :
-            select_area = request.POST['market']
-            select_pro = request.POST['selection']
-            select_all = list(CurrentPrice.objects.filter(ProductName=select_pro, MarketName=select_area, Date=querydate).values())
-            return render(request,"products.html",{'area':select_all})
+        elif '確認' in request.POST['btn']:#待改
+            if request.POST['market'] != '-' and request.POST['selection'] == '-':#待改
+                default_area = request.POST['market']#待改
+                area = list(CurrentPrice.objects.filter(MarketName=default_area,Date=querydate).values())
+                return render(request, "products.html", {'area': area})
+            else :
+                select_area = request.POST['market']
+                select_pro = request.POST['selection']
+                select_all = list(CurrentPrice.objects.filter(ProductName=select_pro, MarketName=select_area, Date=querydate).values())
+                return render(request,"products.html",{'area':select_all})
+    except:
+        return render(request, "index.html")
     # elif 'love' in request.POST['btn']:
     #     Fav_all = str(request.POST['btn'])
     #     Fav_mname = Fav_all.split(',')[1]

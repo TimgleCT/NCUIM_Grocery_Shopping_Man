@@ -6,10 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>中央買菜郎－登入</title>
+     <script>
+        var login_str = "{{ faillogin|safe }}"
+    </script>
     <link rel = "stylesheet"  href = "{% static 'reset.css' %}">
     <link rel = "stylesheet"  href = "{% static 'index.css' %}">
+    <script src="{% static 'login.js' %}"></script>
 </head>
-<body>
+<body onload="CheckAccountToLogin()">
     <div class = "LogWrap">
             <div class = "LogHeader" >
                 <h1>中央買菜郎</h1>
@@ -21,10 +25,10 @@
                             <form action = "http://127.0.0.1:8000/login/" method="post">
                                 {% csrf_token %}
                                 <div class = "InputBox">
-                                    帳號：<input type = "text" name = "username">
+                                    帳號：<input type = "text" name = "username" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');">
                                 </div>
                                 <div class = "InputBox">
-                                    密碼：<input type = "password" name = "password">
+                                    密碼：<input type = "password" name = "password" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');">
                                 </div>
                                 <div class = "InputSubmit">
                                     <input type = "submit" name = "" value = "登入">
