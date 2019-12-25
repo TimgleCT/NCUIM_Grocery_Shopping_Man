@@ -80,7 +80,11 @@ $(document).ready(function () {
         },
         noRecords: {
             template: function(e){
-                return "今日 " + NoDataMarket + " 市場休市";
+                if(NoDataMarket == null){
+                    return "查無相關作物!";
+                }else{
+                    return "今日 " + NoDataMarket + " 市場休市";
+                }
               }
         },
         columns: [

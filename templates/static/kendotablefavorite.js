@@ -41,7 +41,7 @@ $(document).ready(function () {
         sortable: true,
         noRecords: {
             template: function(e){
-                return "您還未收藏任何產品喔!";
+                return "您沒有相關收藏喔!";
               }
         },
         pageable: {
