@@ -126,7 +126,7 @@ function Favorite(e){
         var tr = $(e.target).closest("tr");
         var data = grid.dataItem(tr);
         var FavoriteJSON = data.MarketName + ',' + data.ProductName;
-        alert(FavoriteJSON);
+        // alert(FavoriteJSON);
         $.ajax({
             url: '/products/add/'+FavoriteJSON,
             type: "GET",
