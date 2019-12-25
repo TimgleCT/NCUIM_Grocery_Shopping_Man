@@ -92,7 +92,7 @@ function dateconvert(Data_prod) {
                 if(arr[1] != 0){
                 DayPrice = arr[1] + "元";
                 }else {
-                    DayPrice = "無本日資料";
+                    DayPrice = "休市";
                 }
             }
 

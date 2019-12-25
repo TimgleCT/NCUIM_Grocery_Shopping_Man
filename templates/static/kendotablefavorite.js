@@ -91,7 +91,7 @@ function CancelFavorite(e){
         dataSource.remove(data);
 
         var DeleteBackEnd = data.Fav_id;
-        alert(DeleteBackEnd);
+        // alert(DeleteBackEnd);
         $.ajax({
             url: '/products/delete/'+ DeleteBackEnd,
             type: "GET",
