@@ -35,14 +35,22 @@ def Favorites(request):
         market = Market.objects.get(id=MP.MarketId_id)
         product = Product.objects.get(id=MP.ProductId_id)
         print(market.MarketName, product.ProductName)
-        avg = CurrentPrice.objects.get(MarketName=market.MarketName, ProductName=product.ProductName, Date=querydate)
-        print(avg.AveragePrice)
-        mp = {
-            'ProductName': product.ProductName,
-            'MarketName': market.MarketName,
-            'AveragePrice': avg.AveragePrice,
-            'Fav_id':MP.id,
-        }
+        try:
+            avg = CurrentPrice.objects.get(MarketName=market.MarketName, ProductName=product.ProductName, Date=querydate)
+            print(avg.AveragePrice)
+            mp = {
+                'ProductName': product.ProductName,
+                'MarketName': market.MarketName,
+                'AveragePrice': avg.AveragePrice,
+                'Fav_id':MP.id,
+            }
+        except:
+            mp = {
+                'ProductName': product.ProductName,
+                'MarketName': market.MarketName,
+                'AveragePrice': "無今日資料",
+                'Fav_id': MP.id,
+            }
         js.append(mp)
     print(js)
     return render(request, 'favorite.html', {'FavoriteData':js

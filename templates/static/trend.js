@@ -187,6 +187,13 @@ function SetCookie(MarketName,ProductName,Exhours){
        if(arr != null) return unescape(arr[2]); return null;
   }
 
+  function delCookie(name){
+    var exp = new Date();
+    exp.setTime(exp.getTime() - 1);
+    var cval = getCookie(name);
+    if (cval != null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+}
+
 
 $(document).ready(function () {
     insertKendoWindow_t();
@@ -194,6 +201,8 @@ $(document).ready(function () {
 
     if(getCookie("MN") != null && getCookie("PN")){
         $("#Name").text(getCookie("MN") +","+ getCookie("PN"));
+        delCookie("MN");
+        delCookie("PN");
     }
 
     $("#MarketCategory_t").kendoDropDownList({
