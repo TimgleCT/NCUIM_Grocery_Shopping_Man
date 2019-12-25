@@ -2,11 +2,11 @@
 
 from datetime import datetime
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, response
 from django.shortcuts import render, redirect, render_to_response
 from django.urls import reverse
-
 from members.models import Member
+import json
 
 
 def Index(request):
@@ -21,14 +21,20 @@ def Login(request):
     else:
         username = request.POST['username']
         password = request.POST['password']
+        checkpassword = Member.objects.filter(MemberAccount=username, Password=password).values()
+        print(checkpassword)
+
         try:
             checkpassword = Member.objects.filter(MemberAccount=username, Password=password).get()
             print(checkpassword)
             request.session['username'] = username
             return HttpResponseRedirect('/products/')
         except:
-            faillogin = '登入失敗'
-            return render(request, "login.html", {'faillogin': faillogin})
+            print('登入失敗')
+            faillogin = "登入失敗"
+            return render(request, 'login.html', {'faillogin': faillogin})
+
+        #    return render(request, "login.html", {'faillogin':faillogin})
 
 
 def Registered(request):
@@ -43,6 +49,9 @@ def Registered(request):
             if password2 != password1:
                 twicepwdiswrong = "兩次輸入密碼不同"
                 return render(request, "registered.html", {'twicepwdiswrong': twicepwdiswrong})
+            elif username == "" or password1 == "" or password2 == "":
+                nullinput = "輸入有空值"
+                return render(request, "registered.html", {'nullinput': nullinput})
             Member.objects.filter(MemberAccount=username).get().MemberAccount
             havethisaccount = "帳號已被註冊過"
             return render(request, "registered.html", {'havethisaccount': havethisaccount})

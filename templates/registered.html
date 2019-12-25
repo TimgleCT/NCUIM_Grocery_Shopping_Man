@@ -6,10 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>中央買菜郎－註冊</title>
+    <script>
+        var register_str = "{{ havethisaccount|safe }}"
+    </script>
     <link rel = "stylesheet"  href = "{% static 'reset.css' %}">
     <link rel = "stylesheet"  href = "{% static 'index.css' %}">
+    <script src="{% static 'registered.js' %}"></script>
 </head>
-<body>
+<body onload="DoubleAccount()">
     <div class = "LogWrap">
             <div class = "LogHeader" >
                 <h1>中央買菜郎</h1>
@@ -21,16 +25,16 @@
                             <form action = "http://127.0.0.1:8000/registered/" method="post">
                                 {% csrf_token %}
                                 <div class = "InputBox">
-                                    註冊帳號：<input type = "text" name = "username">
+                                    註冊帳號：<input type = "text" name = "username" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');" id="account1null">
                                 </div>
                                 <div class = "InputBox">
-                                    註冊密碼：<input type = "password" name = "password1">
+                                    註冊密碼：<input type = "password" name = "password1" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');" id="password1null">
                                 </div>
                                 <div class = "InputBox">
-                                    確認密碼：<input type = "password" name = "password2">
+                                    確認密碼：<input type = "password" name = "password2" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');" id="password2null">
                                 </div>
                                 <div class = "InputSubmit">
-                                    <input type = "submit" name = "" value = "確認送出">
+                                    <input type = "submit" name = "" value = "確認送出" onclick="CheckNull()">
                                 </div>
                             </form>
                                 <div class = "InputSubmit">
