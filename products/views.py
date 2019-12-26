@@ -204,7 +204,7 @@ def ADD_Market_Product(request):
             # print(product)
             market = Market.objects.get(MarketName=list['市場名稱'])
             # print(market)
-            MP_Name, created = MarketProduct.objects.get_or_create(MarketId=market, ProductId=product)
+            MP_Name, created = MarketProduct.objects.get_or_create(ProductId=product, MarketId=market)
             print(MP_Name.MarketId, MP_Name.ProductId, created)
 
 
