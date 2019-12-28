@@ -206,6 +206,7 @@ def ADD_Market_Product(request):
             # print(market)
             MP_Name, created = MarketProduct.objects.get_or_create(ProductId=product, MarketId=market)
             print(MP_Name.MarketId, MP_Name.ProductId, created)
+    return HttpResponse("save")
 
 
 def delete(request):

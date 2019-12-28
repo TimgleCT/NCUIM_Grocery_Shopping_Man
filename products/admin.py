@@ -4,7 +4,7 @@ from products.models import *
 
 # Register your models here.
 class CurrentPrice_display(admin.ModelAdmin):
-    list_display = ['Date', 'ProductId', 'ProductName', 'MarketId', 'MarketName', 'AveragePrice']
+    list_display = ['id','Date', 'ProductId', 'ProductName', 'MarketId', 'MarketName', 'AveragePrice']
 
 
 class Fav_display(admin.ModelAdmin):
