@@ -288,7 +288,7 @@ $(document).ready(function () {
         ],
         editable: false
     });
-    if(trend_data != '' && week_data != '') {
+    if((trend_data != '' && trend_data != ',') && (week_data != '' && week_data != ',')) {
         setTimeout(function () {
             $.plot($("#flotcontainer"),
                 [
