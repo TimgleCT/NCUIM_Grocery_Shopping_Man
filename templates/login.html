@@ -25,10 +25,10 @@
                             <form action = "http://127.0.0.1:8000/login/" method="post">
                                 {% csrf_token %}
                                 <div class = "InputBox">
-                                    帳號：<input type = "text" name = "username" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');">
+                                    帳號：<input type = "text" name = "username" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');" maxlength="20">
                                 </div>
                                 <div class = "InputBox">
-                                    密碼：<input type = "password" name = "password" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');">
+                                    密碼：<input type = "password" name = "password" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');" maxlength="20">
                                 </div>
                                 <div class = "InputSubmit">
                                     <input type = "submit" name = "" value = "登入">

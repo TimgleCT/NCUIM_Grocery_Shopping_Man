@@ -25,13 +25,13 @@
                             <form action = "http://127.0.0.1:8000/registered/" method="post">
                                 {% csrf_token %}
                                 <div class = "InputBox">
-                                    註冊帳號：<input type = "text" name = "username" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');" id="account1null">
+                                    註冊帳號：<input type = "text" name = "username" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');" id="account1null" maxlength="20">
                                 </div>
                                 <div class = "InputBox">
-                                    註冊密碼：<input type = "password" name = "password1" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');" id="password1null">
+                                    註冊密碼：<input type = "password" name = "password1" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');" id="password1null" maxlength="20">
                                 </div>
                                 <div class = "InputBox">
-                                    確認密碼：<input type = "password" name = "password2" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');" id="password2null">
+                                    確認密碼：<input type = "password" name = "password2" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9-]+/,'');" id="password2null" maxlength="20">
                                 </div>
                                 <div class = "InputSubmit">
                                     <input type = "submit" name = "" value = "確認送出" onclick="CheckNull()">
