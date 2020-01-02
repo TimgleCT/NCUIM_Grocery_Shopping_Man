@@ -257,29 +257,7 @@ function getCookie(name)//取cookies函数
 var date = [];//date[0]is today
 
 function datecal() {
-    // console.log(week_data.length);
-    // if(week_data.length>1) {
-    //     for (i = 0; i <= week_data.length; i++) {
-    //         if (filted_data[i] != null) {
-    //             day = filted_data[i];
-    //             console.log('filted_data[i](day): ' + day);
-    //             if (day != null) {
-    //                 console.log('day: ' + day[0]);
-    //                 date[i] = day[0];
-    //             }
-    //         } else {
-    //             day = filted_data[6 - i];
-    //             emptyday = parseInt(date[i - 1].split('.')[2]) + 1;
-    //             emptydate = date[i - 1].split('.')[0] + '.' + date[i - 1].split('.')[1] + '.' + emptyday;
-    //             date[i] = emptydate;
-    //         }
-    //     }
-    // }else {
-    //     for(i=0;i<6;i++){
-    //
-    //     }
-    // }
-    // console.log('Date[] = ' + date);
+
     if(filted_data[filted_data.length - 1] != null) {
         last = filted_data[filted_data.length - 1];
         lastdate = last[0];
@@ -310,10 +288,12 @@ function datecal() {
         } else {
             if (nowmon == 1) {
                 date[i] = (parseInt(nowyea - 1)).toString() + '.12.' + (parseInt(nowday - i+ 31 ));
-            } else if (nowmon == 3, 5, 7, 8, 10, 12) {
-                date[i] = (parseInt(nowyea - 1)).toString() + '.'+(parseInt(nowymon - 1)).toString()+'.' + (parseInt(nowday - i+ 31 ));
-            } else if (nowmon = 4, 6, 9, 11) {
+            } else if (nowmon == 5, 7, 10, 12) {
+                date[i] = (parseInt(nowyea - 1)).toString() + '.'+(parseInt(nowymon - 1)).toString()+'.' + (parseInt(nowday - i + 30 ));
+            } else if (nowmon = 2, 4, 6, 8, 9, 11) {
+                date[i] = (parseInt(nowyea - 1)).toString() + '.'+(parseInt(nowymon - 1)).toString()+'.' + (parseInt(nowday - i + 31 ));
             } else {
+                date[i] = (parseInt(nowyea - 1)).toString() + '.'+(parseInt(nowymon - 1)).toString()+'.' + (parseInt(nowday - i + 28 ));
             }
         }
 
