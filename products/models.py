@@ -10,8 +10,8 @@ class CurrentPrice(models.Model):
     MarketId = models.CharField(max_length=15)
     MarketName = models.CharField(max_length=15)
     AveragePrice = models.FloatField()
-    DateId = models.ForeignKey('Date', on_delete=models.CASCADE,null=True)
-    MPId = models.ForeignKey('MarketProduct', on_delete=models.CASCADE,null=True)
+    DateId = models.ForeignKey('Date', on_delete=models.CASCADE, null=True)
+    MPId = models.ForeignKey('MarketProduct', on_delete=models.CASCADE, null=True)
 
 
 class Product(models.Model):
@@ -19,10 +19,16 @@ class Product(models.Model):
     ProductName = models.CharField(max_length=15)
     market_pro = models.ManyToManyField('Market', through='MarketProduct', related_name='market_product')
 
+    def __str__(self):
+        return str(self.id)
+
 
 class Market(models.Model):
     MarketNum = models.CharField(max_length=15)
     MarketName = models.CharField(max_length=15)
+
+    def __str__(self):
+        return str(self.id)
 
 
 class MarketProduct(models.Model):
@@ -30,6 +36,9 @@ class MarketProduct(models.Model):
     MarketId = models.ForeignKey('Market', on_delete=models.CASCADE)
     fav = models.ManyToManyField('members.Member', through='Favorite', related_name='favorite_pro')
     price = models.ManyToManyField('Date', through='CurrentPrice', related_name='price_pro')
+
+    def __str__(self):
+        return str(self.id)
 
 
 class Favorite(models.Model):
@@ -41,3 +50,6 @@ class Favorite(models.Model):
 class Date(models.Model):
     id = models.AutoField(primary_key=True)
     Date = models.CharField(max_length=15)
+
+    def __str__(self):
+        return str(self.id)

@@ -1,14 +1,14 @@
 from django.contrib import admin
 from products.models import *
-
+from django.contrib.auth.models import User,Group
 
 # Register your models here.
 class CurrentPrice_display(admin.ModelAdmin):
-    list_display = ['id','Date', 'ProductId', 'ProductName', 'MarketId', 'MarketName', 'AveragePrice']
+    list_display = ['id','DateId','MPId','Date', 'ProductId', 'ProductName', 'MarketId', 'MarketName', 'AveragePrice']
 
 
 class Fav_display(admin.ModelAdmin):
-    list_display = ['id', 'MemberId_id', 'MPId_id']
+    list_display = ['id', 'MemberId', 'MPId']
 
 
 class Product_display(admin.ModelAdmin):
@@ -20,12 +20,14 @@ class Market_display(admin.ModelAdmin):
 
 
 class MarketProduct_display(admin.ModelAdmin):
-    list_display = ['id', 'MarketId_id', 'ProductId_id']
+    list_display = ['id', 'MarketId', 'ProductId']
 
 
 class Date_display(admin.ModelAdmin):
     list_display = ['id', 'Date']
 
+admin.site.unregister(User)
+admin.site.unregister(Group)
 
 admin.site.register(CurrentPrice, CurrentPrice_display)
 admin.site.register(Favorite, Fav_display)
