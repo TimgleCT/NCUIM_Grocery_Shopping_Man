@@ -34,6 +34,7 @@ function dateconvert(Data_prod) {
     console.log(Data_prod);
 
     if(Data_prod == ""){
+        console.log("working in ''");
         var whatday = new Date();
         today = whatday.getFullYear()+'.'+(whatday.getMonth()+1)+'.'+whatday.getDate();
         console.log(today);
@@ -55,8 +56,10 @@ function dateconvert(Data_prod) {
         console.log(week_data_grid);
         week_data_grid = JSON.parse(week_data_grid);
     }else {
+        console.log("working in not null");
         week_data_grid = week_data_grid + "[{";
         today = Data_prod[Data_prod.length - 1].Date;
+
 
         data_start = 0;
 
@@ -71,13 +74,31 @@ function dateconvert(Data_prod) {
 
         for (j = data_start; j <= Data_prod.length - 1; j++) {
             testdate = Data_prod[j].Date;
+            testyear = parseInt(testdate.split('.')[0]);
+            testmon = parseInt(testdate.split('.')[1]);
             testday = parseInt(testdate.split('.')[2]);
             console.log('testday = ' + testday);
-            console.log('today = ' + today.split('.')[2]);
+            console.log('todayyea = ' + testyear);
+            console.log('todaymon = ' + testmon);
+            console.log('todayday = ' + testday);
+            console.log('today is '+today);
+
 
             pos = 6 - (today.split('.')[2] - testday);
-            console.log('pos = ' + pos);
-            filted_data[pos] = [Data_prod[j].Date, Data_prod[j].AveragePrice];
+            if(pos < 7) {
+                console.log('pos = ' + pos);
+                filted_data[pos] = [Data_prod[j].Date, Data_prod[j].AveragePrice];
+            }else {
+                console.log('pos = ' + pos);
+                if (testmon = 1, 3, 5, 7, 8, 10, 12) {
+                    filted_data[pos - 31] = [Data_prod[j].Date, Data_prod[j].AveragePrice];
+                }else  if(testmon = 4, 6, 9, 11){
+                    filted_data[pos - 30] = [Data_prod[j].Date, Data_prod[j].AveragePrice];
+                }else {
+                    filted_data[pos - 28] = [Data_prod[j].Date, Data_prod[j].AveragePrice];
+                }
+
+            }
         }
 
 
@@ -128,7 +149,7 @@ function dateconvert(Data_prod) {
         console.log(week_data_grid);
         week_data_grid = JSON.parse(week_data_grid);
         console.log('filt data: '+ filted_data);
-        console.log('week data' + week_data);
+        console.log('week data: ' + week_data);
 
 
     }
@@ -144,7 +165,7 @@ var testdata = [
     [gd(2019,12,18),88],
     [gd(2019,12,19),87.87],
     [gd(2019,12,20),77.77],
-    [gd(2019,12,21),99.77]
+    [gd(2019,1,1),99.77]
 ];
 
 
@@ -233,9 +254,79 @@ function getCookie(name)//取cookies函数
 }
 
 
+var date = [];//date[0]is today
+
+function datecal() {
+    // console.log(week_data.length);
+    // if(week_data.length>1) {
+    //     for (i = 0; i <= week_data.length; i++) {
+    //         if (filted_data[i] != null) {
+    //             day = filted_data[i];
+    //             console.log('filted_data[i](day): ' + day);
+    //             if (day != null) {
+    //                 console.log('day: ' + day[0]);
+    //                 date[i] = day[0];
+    //             }
+    //         } else {
+    //             day = filted_data[6 - i];
+    //             emptyday = parseInt(date[i - 1].split('.')[2]) + 1;
+    //             emptydate = date[i - 1].split('.')[0] + '.' + date[i - 1].split('.')[1] + '.' + emptyday;
+    //             date[i] = emptydate;
+    //         }
+    //     }
+    // }else {
+    //     for(i=0;i<6;i++){
+    //
+    //     }
+    // }
+    // console.log('Date[] = ' + date);
+    if(filted_data[filted_data.length - 1] != null) {
+        last = filted_data[filted_data.length - 1];
+        lastdate = last[0];
+    }else {
+        var D = new Date();
+        lastdate = today;
+    }
+
+    console.log(lastdate);
+
+    nowday = lastdate.split('.')[2];
+    nowmon = lastdate.split('.')[1];
+    nowyea = lastdate.split('.')[0];
+
+    console.log('nowyea = ' + nowyea);
+    console.log('nowmon = ' + nowmon);
+    console.log('nowday = ' + nowday);
+
+
+    for (i = 0; i < 7; i++) {
+        console.log('i = ' + i);
+        console.log('nowyea = ' + nowyea);
+        console.log('nowmon = ' + nowmon);
+        console.log('nowday = ' + nowday);
+        console.log('date[i] = ' + date);
+        if (nowday - i > 0) {
+            date[i] = nowyea + '.' + nowmon + '.' + (parseInt(nowday - i)).toString();
+        } else {
+            if (nowmon == 1) {
+                date[i] = (parseInt(nowyea - 1)).toString() + '.12.' + (parseInt(nowday - i+ 31 ));
+            } else if (nowmon == 3, 5, 7, 8, 10, 12) {
+                date[i] = (parseInt(nowyea - 1)).toString() + '.'+(parseInt(nowymon - 1)).toString()+'.' + (parseInt(nowday - i+ 31 ));
+            } else if (nowmon = 4, 6, 9, 11) {
+            } else {
+            }
+        }
+
+    }
+    console.log('Date[] = ' + date);
+}
+
+
 $(document).ready(function () {
     insertKendoWindow_t();
+
     dateconvert(trend_data);
+    datecal();
 
     if(getCookie("MN") != null && getCookie("PN") != null){
         $("#Name").text(getCookie("MN") +","+ getCookie("PN"));
@@ -278,13 +369,20 @@ $(document).ready(function () {
         sortable: false,
         pageable: false,
         columns: [
-            { field: "Day1", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-6).toString(), width: "15%" },
-            { field: "Day2", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-5).toString(), width: "15%" },
-            { field: "Day3", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-4).toString(), width: "15%" },
-            { field: "Day4", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-3).toString(), width: "15%" },
-            { field: "Day5", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-2).toString(), width: "15%" },
-            { field: "Day6", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-1).toString(), width: "15%" },
-            { field: "Day7", title: today.split('.')[1]+'/'+ today.split('.')[2], width: "15%" },
+            // { field: "Day1", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-6).toString(), width: "15%" },
+            // { field: "Day2", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-5).toString(), width: "15%" },
+            // { field: "Day3", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-4).toString(), width: "15%" },
+            // { field: "Day4", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-3).toString(), width: "15%" },
+            // { field: "Day5", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-2).toString(), width: "15%" },
+            // { field: "Day6", title: today.split('.')[1]+'/'+ (parseInt(today.split('.')[2])-1).toString(), width: "15%" },
+            // { field: "Day7", title: today.split('.')[1]+'/'+ today.split('.')[2], width: "15%" },
+            { field: "Day1", title: date[6], width: "15%" },
+            { field: "Day2", title: date[5], width: "15%" },
+            { field: "Day3", title: date[4], width: "15%" },
+            { field: "Day4", title: date[3], width: "15%" },
+            { field: "Day5", title: date[2], width: "15%" },
+            { field: "Day6", title: date[1], width: "15%" },
+            { field: "Day7", title: date[0], width: "15%" },
         ],
         editable: false
     });
